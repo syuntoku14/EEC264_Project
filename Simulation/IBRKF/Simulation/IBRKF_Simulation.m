@@ -58,3 +58,26 @@ end
 legend([true_vec, estimated_vec, measured_vec], {'true x_k', 'estimated x_k', 'measured y_k'});
 figure(2);
 plot(err_list);
+
+
+%% Simulation using different specific theta
+
+clear all; 
+fig = figure(3); hold on;
+
+theta_ = 0.2:0.1:6.2;
+classickf_mse_list = zeros([1, length(theta_)]);
+minmax_mse_list = zeros([1, length(theta_)]);
+for i = 1:length(theta_)
+    classickf_mse = sim_classicKF_specific_theta(theta_(i));
+    minmax_mse = sim_classicKF_specific_theta(6.2);
+    classickf_mse_list(i) = classickf_mse(end);
+    minmax_mse_list(i) = minmax_mse(end);
+end
+plot(theta_, classickf_mse_list);
+plot(theta_, minmax_mse_list);
+xlim([0.2, 6.2]);
+ylim([13, 26]);
+xlabel("\theta'");
+ylabel("Average Steady-State MSE");
+legend('Model-Specific Kalman', 'Minimax Kalman');
