@@ -14,30 +14,44 @@ classdef ClassicKalmanFilter < handle
         end
         
         function estimate_x_k1(obj, y_k, model)
-            z_k = y_k - model.H_k*obj.x_k;
+            H_k = model.H_k;
+            Phi_k = model.Phi_k;
+            R = model.R;
+            Gamma_k = model.Gamma_k;
+            Q = model.Q;
             
-            P_z_k = model.H_k*obj.P_k*model.H_k';
+            z_k = y_k - H_k*obj.x_k;
             
-            K_k = model.Phi_k*obj.P_k*model.H_k'/(P_z_k + model.R);
+            P_z_k = H_k*obj.P_k*H_k';
             
-            x_k1 = model.Phi_k*obj.x_k + K_k*z_k;
+            K_k = Phi_k*obj.P_k*H_k'/(P_z_k + R);
+            
+            x_k1 = Phi_k*obj.x_k + K_k*z_k;
 
-            P_k1 = (model.Phi_k - K_k*model.H_k)*obj.P_k*model.Phi_k'...
-                + model.Gamma_k*model.Q*model.Gamma_k';
+            P_k1 = (Phi_k - K_k*H_k)*obj.P_k*Phi_k'...
+                + Gamma_k*Q*Gamma_k';
             
             obj.x_k = x_k1;
             obj.P_k = P_k1;
         end
         
         function compute_ex_err_cov_k1(obj, true_model, theta_specific_model)
-            P_z_k = true_model.H_k*obj.P_k*true_model.H_k';
+            H_k = true_model.H_k;
+            Phi_k = true_model.Phi_k;
+            Gamma_k = true_model.Gamma_k;
+            R = theta_specific_model.R;
+            ex_Q = true_model.ex_Q; 
+            ex_R = true_model.ex_R;
             
-            K_k = true_model.Phi_k*obj.P_k*true_model.H_k'/(P_z_k + theta_specific_model.R);
+            
+            P_z_k = H_k*obj.P_k*H_k';
+            
+            K_k = Phi_k*obj.P_k*H_k'/(P_z_k + R);
 
-            err_cov_k_1 = (true_model.Phi_k - K_k*true_model.H_k)*obj.err_cov_k ...
-                * (true_model.Phi_k - K_k*true_model.H_k)' ...
-                + true_model.Gamma_k*true_model.ex_Q*true_model.Gamma_k' ...
-                + K_k*true_model.ex_R*K_k';
+            err_cov_k_1 = (Phi_k - K_k*H_k)*obj.err_cov_k ...
+                * (Phi_k - K_k*H_k)' ...
+                + Gamma_k*ex_Q*Gamma_k' ...
+                + K_k*ex_R*K_k';
             obj.err_cov_k = err_cov_k_1;
         end
     end

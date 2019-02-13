@@ -1,4 +1,4 @@
-function mse_list = sim_(theta_)
+function mse_list = sim_IBRKF(theta_)
     %% settings
     addpath('../utils');
     addpath('../filter');
@@ -27,10 +27,10 @@ function mse_list = sim_(theta_)
 
     for epoch = 1:num_epoch
         x_k = x_0;
-        KF = ClassicKalmanFilter(x0.mean, x0.cov, error_cov);
+        KF = IBRKalmanFilter(x0.mean, x0.cov, error_cov);
         for k = 0:num_k - 1
             [x_k1, y_k] = step_model(x_k, true_model);
-            KF.compute_ex_err_cov_k1(true_model, theta_specific_model);
+            KF.compute_ex_err_cov_k1();
             KF.estimate_x_k1(y_k, theta_specific_model);
             mse_list(k+1) = trace(KF.err_cov_k);
             x_k = x_k1;
