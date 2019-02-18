@@ -1,5 +1,5 @@
 classdef IBRKalmanFilter < handle
-    % This works only for IBR_model
+    % This works only for OBKF_model
     properties
         x_k        
         P_k  % This is expectation according to theta
@@ -23,13 +23,11 @@ classdef IBRKalmanFilter < handle
             
             z_k = y_k - H_k*obj.x_k;
             
-            ex_P_z_k = H_k*ex_P_k*H_k';
-            
-            K_k = Phi_k*ex_P_k*H_k'/(ex_P_z_k + ex_R);
+            K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R);
             
             x_k1 = Phi_k*obj.x_k + K_k*z_k;
 
-            ex_P_k1 = (Phi_k - K_k*H_k)*ex_P_k*Phi_k'...
+            ex_P_k1 = Phi_k - K_k*H_k)*ex_P_k*Phi_k'...
                 + Gamma_k*ex_Q*Gamma_k';
             
             obj.x_k = x_k1;

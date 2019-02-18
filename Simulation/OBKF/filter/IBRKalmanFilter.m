@@ -1,5 +1,5 @@
 classdef IBRKalmanFilter < handle
-    % This works only for IBR_model
+    % This works only for OBKF_model
     properties
         x_k        
         P_k  % This is expectation according to theta
@@ -23,21 +23,34 @@ classdef IBRKalmanFilter < handle
             
             z_k = y_k - H_k*obj.x_k;
             
-            ex_P_z_k = H_k*ex_P_k*H_k';
-            
-            K_k = Phi_k*ex_P_k*H_k'/(ex_P_z_k + ex_R);
+            K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R);
             
             x_k1 = Phi_k*obj.x_k + K_k*z_k;
 
-            ex_P_k1 = (Phi_k - K_k*H_k)*ex_P_k*Phi_k'...
+            ex_P_k1 = Phi_k*(eye(4) - K_k*H_k)*ex_P_k*Phi_k'...
                 + Gamma_k*ex_Q*Gamma_k';
             
             obj.x_k = x_k1;
             obj.P_k = ex_P_k1;
         end
         
-        function compute_ex_err_cov_k1(obj, varargin)
-           obj.err_cov_k = obj.P_k;
+        function compute_ex_err_cov_k1(obj, true_model, theta_specific_model)
+            H_k = true_model.H_k;
+            Phi_k = true_model.Phi_k;
+            Gamma_k = true_model.Gamma_k;
+            R = theta_specific_model.R;
+            ex_R = true_model.ex_R;
+            true_Q = true_model.Q; 
+            true_R = true_model.R;
+            ex_P_k = obj.P_k;
+           
+            K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R);
+            
+            err_cov_k_1 = Phi_k*(eye(4) - K_k*H_k)*obj.err_cov_k ...
+                * (eye(4) - K_k*H_k)'*Phi_k' ...
+                + Gamma_k*true_Q*Gamma_k' ...
+                + Phi_k*K_k*true_R*K_k'*Phi_k';
+            obj.err_cov_k = err_cov_k_1;
         end
     end
 end

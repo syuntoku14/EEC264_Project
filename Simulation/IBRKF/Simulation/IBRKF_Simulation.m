@@ -94,3 +94,7 @@ ylim([13, 26]);
 xlabel("\theta'");
 ylabel("Average Steady-State MSE");
 legend('Model-Specific Kalman', 'Minimax Kalman', 'IBR Kalman');
+
+rmpath('../utils');
+rmpath('../filter');
+rmpath('../model');
