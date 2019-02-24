@@ -1,3 +1,11 @@
+%% MAP test
+clear all; close all;
+mapkf_err_list = sim_KF(1, 1, 'MAPKF', 1);
+plot(mapkf_err_list, 'LineStyle', ':');
+legend('MAP');
+xlabel('k'); ylabel('MSE');
+title(['r=', int2str(r)]);
+
 %% settings
 addpath('../utils');
 addpath('../filter');

@@ -1,4 +1,4 @@
-classdef OBKalmanFilter < handle
+classdef MAPKalmanFilter < handle
     % This works only for OBKF_model
     properties
         x_0
@@ -13,7 +13,7 @@ classdef OBKalmanFilter < handle
     end
     
     methods
-        function obj = OBKalmanFilter(ex_x_0, ex_P_0, err_cov_k, ex_Q, ex_R)
+        function obj = MAPKalmanFilter(ex_x_0, ex_P_0, err_cov_k, ex_Q, ex_R)
             obj.x_0 = ex_x_0;
             obj.P_0 = ex_P_0;
             obj.x_k = ex_x_0;
@@ -24,7 +24,7 @@ classdef OBKalmanFilter < handle
             obj.pi_theta = makedist('Uniform', 'lower', 0.25, 'upper', 4);
         end
         
-        function r_mean = estimate_x_k1(obj, y_k, y_list, model)
+        function estimate_x_k1(obj, y_k, y_list, model)
             H_k = model.H_k;
             Phi_k = model.Phi_k;
             Gamma_k = model.Gamma_k;
@@ -37,9 +37,8 @@ classdef OBKalmanFilter < handle
             K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R_y);
             obj.K_k = K_k;
             
-            r_list = obj.MCMC(y_list, model);
-            r_mean = mean(r_list);
-            [ex_Q_y, ex_R_y] = obj.QR_from_r(r_mean, model); 
+            map_r = obj.map(y_list, model);
+            [ex_Q_y, ex_R_y] = obj.QR_from_r(map_r, model); 
             
             ex_P_k1 = Phi_k*(eye(4) - K_k*H_k)*ex_P_k*Phi_k'...
                 + Gamma_k*ex_Q_y*Gamma_k';
@@ -50,22 +49,17 @@ classdef OBKalmanFilter < handle
             obj.P_k = ex_P_k1;
         end
         
-        function r_list = MCMC(obj, y_list, model)
-            r = obj.pi_theta.random();
-            f_y_r_1 = obj.factor_graph(r, y_list, model);
-            i = 1;
-            num_iterations = 1000;
-            r_list = [r];
-            while i <= num_iterations
-                r_candid = obj.pi_theta.random();
-                f_y_r = obj.factor_graph(r_candid, y_list, model);
-                z = min(1, f_y_r*obj.pi_theta.pdf(r_candid)/(f_y_r_1*obj.pi_theta.pdf(r)));
-                if rand() < z 
-                    r = r_candid;
-                    f_y_r_1 = f_y_r;
-                    if i > 100
-                        r_list = [r_list, r];
-                    end
+        function map_r = map(obj, y_list, model)
+            map_r = obj.pi_theta.random();
+            p = 0;
+            num_iteration = 1000;
+            i = 0;
+            while i < num_iteration
+                r = obj.pi_theta.random();
+                p_ = obj.factor_graph(r, y_list, model);
+                if p_ > p
+                    p = p_;
+                    map_r = r;
                 end
                 i = i+1;
             end
