@@ -24,13 +24,11 @@ r_prior = makedist('Uniform');
 r_mean = r_prior.mean * 3.75 + 0.25;
 r_max = 4.0;
 
-num_epoch = 5;
-
 r = 1.0;
-r_specific_simulation(r, r_max, num_epoch, 1);
+r_specific_simulation(r, r_max, 1);
 
-% r = 3.0;
-% r_specific_simulation(r, r_max, num_epoch, 2);
+r = 3.0;
+r_specific_simulation(r, r_max, 2);
 
 rmpath('../utils');
 rmpath('../filter');
@@ -38,10 +36,10 @@ rmpath('../model');
 
 function r_specific_simulation(r, r_max, num_epoch, n_figure)
     %% Simulation
-    specific_err_list = sim_classicKF_specific_r(r, r, num_epoch);
-    mm_err_list = sim_classicKF_specific_r(r, r_max, num_epoch);
-    ibr_err_list = sim_IBRKF(r, num_epoch);
-    obkf_err_list = sim_OBKF(r, num_epoch);
+    specific_err_list = sim_classicKF_specific_r(r, r);
+    mm_err_list = sim_classicKF_specific_r(r, r_max);
+    ibr_err_list = sim_IBRKF(r);
+    obkf_err_list = sim_OBKF(r);
     
     figure(n_figure); hold on;
     plot(specific_err_list);

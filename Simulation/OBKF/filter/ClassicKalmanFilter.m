@@ -4,6 +4,7 @@ classdef ClassicKalmanFilter < handle
         x_k        
         P_k
         err_cov_k
+        K_k
     end
     
     methods
@@ -23,6 +24,7 @@ classdef ClassicKalmanFilter < handle
             z_k = y_k - H_k*obj.x_k;
             
             K_k = obj.P_k*H_k'/(H_k*obj.P_k*H_k' + R);
+            obj.K_k = K_k;
             
             x_k1 = Phi_k*obj.x_k + Phi_k*K_k*z_k;
 
@@ -41,7 +43,7 @@ classdef ClassicKalmanFilter < handle
             true_Q = true_model.Q; 
             true_R = true_model.R;
            
-            K_k = obj.P_k*H_k'/(H_k*obj.P_k*H_k' + R);
+            K_k = obj.K_k;
             
             err_cov_k_1 = Phi_k*(eye(4) - K_k*H_k)*obj.err_cov_k ...
                 * (eye(4) - K_k*H_k)'*Phi_k' ...

@@ -4,6 +4,7 @@ classdef IBRKalmanFilter < handle
         x_k        
         P_k  % This is expectation according to theta
         err_cov_k
+        K_k
     end
     
     methods
@@ -32,19 +33,20 @@ classdef IBRKalmanFilter < handle
             
             obj.x_k = x_k1;
             obj.P_k = ex_P_k1;
+            obj.K_k = K_k;
         end
         
-        function compute_ex_err_cov_k1(obj, true_model, theta_specific_model)
+        function compute_ex_err_cov_k1(obj, true_model)
             H_k = true_model.H_k;
             Phi_k = true_model.Phi_k;
             Gamma_k = true_model.Gamma_k;
-            R = theta_specific_model.R;
             ex_R = true_model.ex_R;
             true_Q = true_model.Q; 
             true_R = true_model.R;
             ex_P_k = obj.P_k;
            
-            K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R);
+            % K_k = ex_P_k*H_k'/(H_k*ex_P_k*H_k' + ex_R);
+            K_k = obj.K_k;
             
             err_cov_k_1 = Phi_k*(eye(4) - K_k*H_k)*obj.err_cov_k ...
                 * (eye(4) - K_k*H_k)'*Phi_k' ...
