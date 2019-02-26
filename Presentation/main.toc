@@ -1,0 +1,15 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{What's this paper?}{3}{0}{1}
+\beamer@sectionintoc {2}{Overview Kalman Filter}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Basic Idea}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Algorithm}{6}{0}{2}
+\beamer@subsectionintoc {2}{3}{Problem of Kalman Filter}{8}{0}{2}
+\beamer@subsectionintoc {2}{4}{Two Solutions: Empirical and Bayesian}{9}{0}{2}
+\beamer@sectionintoc {3}{A Bayesian Solution: IBR Kalman Filter}{10}{0}{3}
+\beamer@subsectionintoc {3}{1}{Overview: IBR Filter}{10}{0}{3}
+\beamer@sectionintoc {4}{Prior update: Optimal Bayesian Kalman Filter}{11}{0}{4}
+\beamer@subsectionintoc {4}{1}{Overview: OBKF}{11}{0}{4}
+\beamer@subsectionintoc {4}{2}{Details}{12}{0}{4}
+\beamer@subsectionintoc {4}{3}{Results}{13}{0}{4}
+\beamer@subsectionintoc {4}{4}{Future Works}{14}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{15}{0}{5}

@@ -1,4 +1,4 @@
-function mse_list = sim_KF(r, r_, name_KF, num_epoch)
+function [mse_list, mean_list] = sim_KF(r, r_, name_KF, num_epoch)
     %% settings
     addpath('../utils');
     addpath('../filter');
@@ -15,7 +15,6 @@ function mse_list = sim_KF(r, r_, name_KF, num_epoch)
     error_cov = x0.cov;
 
     r_prior = makedist('Uniform');
-    r = r;
     r_mean = r_prior.mean * 3.75 + 0.25;
     true_model = OBKF_model(r, r_mean);
 
@@ -25,27 +24,33 @@ function mse_list = sim_KF(r, r_, name_KF, num_epoch)
     %% Simulation
     num_k = 50;
     mse_list = zeros([1, num_k]);
+    mean_list = cell(num_k, 1);
 
     for epoch = 1:num_epoch
         x_k = x_0;
         y_list = {};
-        if name_KF == 'ClassicKF'
+        if strcmp(name_KF, 'ClassicKF')
             KF = ClassicKalmanFilter(x0.mean, x0.cov, error_cov);
-        elseif name_KF == 'IBRKF'
+        elseif strcmp(name_KF, 'IBRKF')
             KF = IBRKalmanFilter(x0.mean, x0.cov, error_cov);
-        elseif name_KF == 'OBKF'
+        elseif strcmp(name_KF, 'OBKF')
             KF = OBKalmanFilter(x0.mean, x0.cov, error_cov, true_model.ex_Q, true_model.ex_R);
+        elseif strcmp(name_KF, 'MAPKF')
+            KF = MAPKalmanFilter(x0.mean, x0.cov, error_cov, true_model.ex_Q, true_model.ex_R);
         end
         for k = 1:num_k
             [x_k1, y_k] = step_model(x_k, true_model);
             y_list{end+1} = y_k;
-            if name_KF == "OBKF"
+            if strcmp(name_KF, 'ClassicKF')
                 KF.estimate_x_k1(y_k, r_specific_model);
                 KF.compute_ex_err_cov_k1(true_model, r_specific_model);
-            elseif name_KF == 'IBRKF'
+            elseif strcmp(name_KF, 'IBRKF')
                 KF.estimate_x_k1(y_k, r_specific_model);
                 KF.compute_ex_err_cov_k1(true_model);
-            elseif name_KF == ''
+            elseif strcmp(name_KF, 'OBKF')
+                mean_list{k} = [mean_list{k}, KF.estimate_x_k1(y_k, y_list, r_specific_model)];
+                KF.compute_ex_err_cov_k1(true_model);
+            elseif strcmp(name_KF, 'MAPKF')
                 KF.estimate_x_k1(y_k, y_list, r_specific_model);
                 KF.compute_ex_err_cov_k1(true_model);
             end
@@ -55,6 +60,7 @@ function mse_list = sim_KF(r, r_, name_KF, num_epoch)
     end
     mse_list = mse_list ./ num_epoch; 
     mse_list = mse_list(2:end);
+    mean_list = mean_list(2:end);
 end
 
 

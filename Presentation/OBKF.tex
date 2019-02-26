@@ -1,0 +1,37 @@
+\section{Prior update: Optimal Bayesian Kalman Filter}
+
+\subsection{Overview: OBKF}
+\begin{frame}{Optimal Bayesian Kalman Filter}
+\begin{itemize}
+    \item Using measured data $Y_k$ to estimate the unknown value ${\bf \theta}$
+    \item Applying IBRKF relative to the posterior distribution $f(Y_k|{\bf \theta})$
+\end{itemize}
+\end{frame}
+
+\subsection{Details}
+
+\begin{frame}{Details}
+\begin{itemize}
+    \item Factor Graph
+    \item Metropolis-Heisting
+    \item IBR Kalman Filter
+\end{itemize}
+\end{frame}
+
+\subsection{Results}
+
+\begin{frame}{}
+% Good image will inserted here
+% 1. compare the classic, IBR one
+% 2. under uncertain prior distribution
+% 3. result compared to the adaptive filters
+\end{frame}
+
+\subsection{Future Works}
+\begin{frame}{}
+\begin{itemize}
+    \item If the prior distribution doesn't include the true value, the performance will be poor.
+    \item MCMC is slow. This can be handle.
+    \item Factor Graph is redundant. This can be handle.
+\end{itemize}
+\end{frame}

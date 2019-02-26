@@ -10,6 +10,8 @@ addpath('../model');
 clear all; close all;
 conf_interval = 0.95;
 
+num_epoch = 200;
+
 %% true_model setup
 % Initial State
 x0.mean = [100, 10, 30, -10]';
@@ -23,8 +25,6 @@ error_cov = x0.cov;
 r_prior = makedist('Uniform');
 r_mean = r_prior.mean * 3.75 + 0.25;
 r_max = 4.0;
-
-num_epoch = 200;
 
 r = 1.0;
 r_specific_simulation(r, r_max, num_epoch, 1, 2);

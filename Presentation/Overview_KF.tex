@@ -1,0 +1,50 @@
+\section{Overview Kalman Filter} 
+\subsection{Basic Idea}
+\begin{frame}{Kalman Filter: Basic idea}
+\begin{itemize}
+    \item Provides the optimal estimation of the state of a process
+    \item Exploits both the prediction based on the model and the measurement
+    \item Application Example: Robot Localization
+\end{itemize}
+\end{frame}
+
+\subsection{Algorithm}
+
+\begin{frame}{Kalman Filter: Algorithm}  % ここに引用元が必要
+
+Kalman Filter works for a linear system:
+\begin{align*}
+x_{t} &= A_tx_{t-1} + B_tu_{t} + \epsilon_{t}\notag\\
+z_{t} &= C_tx_{t} + \delta_{t}
+\end{align*}   
+
+\pause
+
+\begin{block}{Algorithm Kalman Filter($\mu_{t-1}, \Sigma_{t-1}, u_t, z_t$):}
+\begin{align*}
+\bar \mu_{t} &= A_t\mu_{t-1} + Bu_{t}\\
+\bar \Sigma_{t} &= A_t\Sigma_{t-1}A_t^T + R_t\\
+K_t &= \bar \Sigma_{t}C_t^T(C_t\bar \Sigma_t C_t^T+Q_t)^{-1}\\
+\mu_{t} &= \hat \mu_{t} + K_t(z_t-C_t\bar\mu_t)\\
+\Sigma_{t} &= (I-K_tC_t)\bar\Sigma_t
+\end{align*}   
+\end{block}
+\end{frame}
+
+\subsection{Problem of Kalman Filter}
+
+\begin{frame}{Problems of Kalman Filter}
+\begin{itemize}
+    \item The performance is sensitive to the accuracy of $R_t$ and $Q_t$
+    \item It's impossible to obtain the exact value of $R_t$ and $Q_t$
+\end{itemize}
+\end{frame}
+
+\subsection{Two Solutions: Empirical and Bayesian}
+
+\begin{frame}{Two Solutions: Emprirical and Bayesian}
+\begin{itemize}
+    \item Empirical Approach: Adaptive Kalman Filter
+    \item Bayesian Approach: IBR Kalman Filter
+\end{itemize}    
+\end{frame}
