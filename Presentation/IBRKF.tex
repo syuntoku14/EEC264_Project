@@ -1,9 +1,30 @@
 \section{A Bayesian Solution: IBR Kalman Filter}
+\begin{frame}
+    \tableofcontents[currentsection]
+\end{frame}
 
-\subsection{Overview: IBR Filter}
-\begin{frame}{Overview: IBR Filter}
-\begin{itemize}
-    \item Provide the optimal filter relative to an uncertain class of processes
-    \item IBR Kalman Filter is found by Dehghannasiri et al. 2017
-\end{itemize}     
+\subsection{Baysian Setup}
+\begin{frame}{Bayesian Setup}
+Using ${\bf \theta}=[\theta_1, \theta_2]$, assume the covariance matrices of the noise are parameterized as: 
+\begin{align*}
+E[{\bf u}^{\theta_1}_k ({\bf u}^{\theta_1}_l)^T]&={\bf Q}^{\theta_1}\delta_{kl}\\
+E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]&={\bf R}^{\theta_2}\delta_{kl}
+\end{align*}
+And assume the prior distribution $\pi({\bf \theta})$
+\end{frame}
+
+\subsection{Algorithm: IBR Kalman Filter}
+\begin{frame}{Algorithm: IBR Kalman Filter}
+
+\begin{algorithm}[H]
+\caption{IBR Kalman Filter}
+\begin{algorithmic}[1]
+\REQUIRE ${\bf \hat x}^{\theta}_k$, $E_\theta[{\bf P^{x, \theta}}_{k}]$, ${\bf y}^{\theta}_k$
+\STATE $\tilde {\bf z}^{\bf \theta}_k = {\bf y}^{\bf \theta}_k - {\bf H}_k{\bf \hat x}^{\bf \theta}_k$
+\STATE ${\bf K}^{\bf \Theta}_k = E_\theta[{\bf P^{x, \theta}}_k]{\bf H}^T_kE_\theta^{-1}[{\bf H}_k{\bf P^{x, \theta}}_k{\bf H}^T_k+{\bf R^{\theta_2}}]$
+\STATE $\hat{\bf x}^{\theta}_{k+1} = {\bf \Phi}_k{\bf \hat x}^{\theta}_k+{\bf \Phi}_k{\bf K}^{\bf \Theta}_k{\bf \tilde z}^{\theta}_k$
+\STATE $E_\theta[{\bf P^{x, \theta}}_{k+1}] = {\bf \Phi}_k({\bf I}-{\bf K}^{\bf \Theta}_k{\bf H}_k)E_\theta[{\bf P^{x, \theta}}_k]{\bf \Phi}^T_k + {\bf \Gamma}_kE_{\theta_1}[{\bf Q^{\theta_1}}_k]{\bf \Gamma}_k^T$
+\ENSURE ${\bf \hat x}^{\theta}_{k+1}$, $E_\theta[{\bf P^{x, \theta}}_{k+1}]$
+\end{algorithmic}
+\end{algorithm}
 \end{frame}

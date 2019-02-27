@@ -1,8 +1,34 @@
 \begin{thebibliography}{}
 
+\bibitem[, ]{}
+{Analysis of Discrete-Time Kalman Filterinng Under Incorrect Noise
+  Covariances}.
+
+\bibitem[Dalton and Dougherty, 2014]{Dalton2014}
+Dalton, L.~A. and Dougherty, E.~R. (2014).
+\newblock {Intrinsically optimal bayesian robust filtering}.
+\newblock {\em IEEE Transactions on Signal Processing}, 62(3):657--670.
+
+\bibitem[Dehghannasiri et~al., 2017]{Dehghannasiri2017}
+Dehghannasiri, R., Esfahani, M.~S., and Dougherty, E.~R. (2017).
+\newblock {Intrinsically Bayesian robust kalman filter: An innovation process
+  approach}.
+\newblock {\em IEEE Transactions on Signal Processing}, 65(10):2531--2546.
+
 \bibitem[Dehghannasiri et~al., 2018]{Dehghannasiri2018}
 Dehghannasiri, R., Esfahani, M.~S., Qian, X., and Dougherty, E.~R. (2018).
 \newblock {Optimal Bayesian Kalman Filtering with Prior Update}.
 \newblock {\em IEEE Transactions on Signal Processing}, 66(8):1982--1996.
+
+\bibitem[Kalman, 1960]{Kalman1960}
+Kalman, R.~E. (1960).
+\newblock {A New Approach to Linear Filtering and Prediction Problems}.
+\newblock {\em Journal of Basic Engineering}, 82(1):35.
+
+\bibitem[Sangsuk-Iam and Bullock, 1990]{Sangsuk-Iam1990}
+Sangsuk-Iam, S. and Bullock, T. (1990).
+\newblock {Analysis of discrete-time Kalman filtering under incorrect noise
+  covariances}.
+\newblock {\em IEEE Transactions on Automatic Control}, 35(12):1304--1309.
 
 \end{thebibliography}

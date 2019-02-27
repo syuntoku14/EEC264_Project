@@ -1,8 +1,12 @@
 \section{Overview Kalman Filter} 
+\begin{frame}
+    \tableofcontents[currentsection]
+\end{frame}
+
 \subsection{Basic Idea}
 \begin{frame}{Kalman Filter: Basic idea}
 \begin{itemize}
-    \item Provides the optimal estimation of the state of a process
+    \item Outputs the optimal estimation of the state of a dynamic system
     \item Exploits both the prediction based on the model and the measurement
     \item Application Example: Robot Localization
 \end{itemize}
@@ -10,41 +14,73 @@
 
 \subsection{Algorithm}
 
-\begin{frame}{Kalman Filter: Algorithm}  % ここに引用元が必要
+\begin{frame}[allowframebreaks]{Kalman Filter: Algorithm}  % ここに引用元が必要
 
-Kalman Filter works for a linear system:
+Kalman Filter works for linear dynamic systems:
+\begin{block}{Linear Dynamic System Example}
 \begin{align*}
-x_{t} &= A_tx_{t-1} + B_tu_{t} + \epsilon_{t}\notag\\
-z_{t} &= C_tx_{t} + \delta_{t}
+{\bf x}_{k+1} &= {\bf \Phi}_k{\bf x}_{k} + {\bf \Gamma}_k{\bf u}_{k}\notag\\
+{\bf y}_{k} &= {\bf H}_k{\bf x}_{k} + {\bf v}_{k}
 \end{align*}   
+\begin{itemize}
+    \item ${\bf x}_k$: {\it state vector}
+    \item ${\bf z}_k$: {\it observation vector}
+    \item ${\bf u}_k,\; {\bf v}_k$: {\it zero-mean noise vector}
+    \item ${\bf \Phi}_k, \; {\bf \Gamma}_k, \; {\bf H}_k$: {\it transition matrix}
+\end{itemize}
+\end{block}
 
 \pause
 
-\begin{block}{Algorithm Kalman Filter($\mu_{t-1}, \Sigma_{t-1}, u_t, z_t$):}
-\begin{align*}
-\bar \mu_{t} &= A_t\mu_{t-1} + Bu_{t}\\
-\bar \Sigma_{t} &= A_t\Sigma_{t-1}A_t^T + R_t\\
-K_t &= \bar \Sigma_{t}C_t^T(C_t\bar \Sigma_t C_t^T+Q_t)^{-1}\\
-\mu_{t} &= \hat \mu_{t} + K_t(z_t-C_t\bar\mu_t)\\
-\Sigma_{t} &= (I-K_tC_t)\bar\Sigma_t
-\end{align*}   
-\end{block}
+\begin{algorithm}[H]
+\caption{Classic Kalman Filter}
+\begin{algorithmic}[1]
+\REQUIRE ${\bf \hat x}_k$, ${\bf P^x}_{k}$, ${\bf y}_k$
+\STATE $\tilde {\bf z}_k = {\bf y}_k - {\bf H}_k{\bf \hat x}_k$
+\STATE ${\bf K}_k = {\bf P^x}_k{\bf H}^T_k({\bf H}_k{\bf P^x}_k{\bf H}^T_k+{\bf R})^{-1}$
+\STATE $\hat{\bf x}_{k+1} = {\bf \Phi}_k{\bf \hat x}_k+{\bf \Phi}_k{\bf K}_k{\bf \tilde z}_k$
+\STATE ${\bf P^x}_{k+1} = {\bf \Phi}_k({\bf I}-{\bf K}_k{\bf H}_k){\bf P^x}_k{\bf \Phi}^T_k + {\bf \Gamma}_k{\bf Q}{\bf \Gamma}_k^T$
+\ENSURE ${\bf \hat x}_{k+1}$, ${\bf P^x}_{k+1}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{itemize}
+    \item ${\bf \hat x}_k$: {\it estimated mean}
+    \item ${\bf P^x}_k$: {\it estimated covariance}
+    \item ${\bf R}$: {\it Noise covariance of ${\bf u}_k$}
+    \item ${\bf Q}$: {\it Noise covariance of ${\bf v}_k$}
+\end{itemize}
 \end{frame}
 
 \subsection{Problem of Kalman Filter}
 
 \begin{frame}{Problems of Kalman Filter}
 \begin{itemize}
-    \item The performance is sensitive to the accuracy of $R_t$ and $Q_t$
-    \item It's impossible to obtain the exact value of $R_t$ and $Q_t$
+    \item The performance is sensitive to the accuracy of the noise covariance matrixes: ${\bf Q}$ and ${\bf R}$\cite{Sangsuk-Iam1990}
 \end{itemize}
 \end{frame}
 
-\subsection{Two Solutions: Empirical and Bayesian}
+\subsection{Solutions of the Problem}
 
-\begin{frame}{Two Solutions: Emprirical and Bayesian}
+\begin{frame}{Solutions of the Problem}
 \begin{itemize}
-    \item Empirical Approach: Adaptive Kalman Filter
+    \item Non-Bayesian Approach: Adaptive Kalman Filter
+    \begin{itemize}
+        \item Doesn't require any prior knowledge
+        \item Require many data
+    \end{itemize}
+    \pause
     \item Bayesian Approach: IBR Kalman Filter
+    \begin{itemize}
+        \item Require prior knowledge
+        \item Robust: Guarantee the best average performance relative to the prior distribution
+    \end{itemize}
+    \pause
+    \item Bayesian Approach: Optimal Bayesian Kalman Filter
+    \begin{itemize}
+        \item Require prior knowledge
+        \item Utilize measured data to estimate unknown parameters
+        \item Optimal over the posterior distribution obtained from measured data
+    \end{itemize}
 \end{itemize}    
 \end{frame}
