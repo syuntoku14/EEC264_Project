@@ -3,6 +3,14 @@
     \tableofcontents[currentsection]
 \end{frame}
 
+\subsection{Basic Idea}
+\begin{frame}{Basic Idea}
+    \begin{itemize}
+        \item Assume the prior distribution for the uncertainty of the covariance matrices
+        \item Guarantee the best average performance relative to the prior distribution
+    \end{itemize}
+\end{frame}
+
 \subsection{Baysian Setup}
 \begin{frame}{Bayesian Setup}
 Using ${\bf \theta}=[\theta_1, \theta_2]$, assume the covariance matrices of the noise are parameterized as: 
@@ -13,8 +21,10 @@ E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]&={\bf R}^{\theta_2}\delta_{kl}
 And assume the prior distribution $\pi({\bf \theta})$
 \end{frame}
 
-\subsection{Algorithm: IBR Kalman Filter}
+\subsection{Algorithm}
 \begin{frame}{Algorithm: IBR Kalman Filter}
+
+IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Calssic Kalman Filter with $E_{\theta_1}[{\bf R}^{\theta_1}]$ and $E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively
 
 \begin{algorithm}[H]
 \caption{IBR Kalman Filter}
