@@ -1,0 +1,40 @@
+\documentclass[a4paper, 11pt]{article}
+\renewcommand\thesubsection{\Alph{subsection}}
+
+\usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+\usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+\usepackage{fullpage} % changes the margin
+\usepackage{indentfirst}
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{float}
+\usepackage{listings}
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=none,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+%Header-Make sure you update this information!!!!
+\noindent
+\hfill \textbf{Toshinori Kitamura}\\
+\normalsize EEC 264 Project Proposal\hfill \\
+                
+\input{Project}
+
+
+\end{document}

@@ -1,0 +1,65 @@
+\section{Optimal Bayesian Kalman Filter\label{sec: obkf}}
+
+Although IBRKF achieves the robustness relative to its prior knowledge, it doesn't exploit the whole information provided by the observation. The OBKF utilizes both the prior and posterior knowledge to achieve a better estimation. Compared with the IBRKF, it minimizes the cost relative to the posterior distribution, i.e., 
+
+\begin{align} \label{eq:obkfcost}
+    \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E_{\bm{\theta}}[\E[|\bm{x}_k-\bm{\hat x}_k|^2]|\mathcal{Y}_k]
+\end{align}
+
+where $\mathcal{Y}_k$ is $\mathcal{Y}_k=\{\bm{y}_0, \bm{y}_1, ..., \bm{y}_k\}$
+
+Same as the IBRKF, the algorithm providing the $\bm{\hat x}_k$ satisfying (\ref{eq:obkfcost}) is obtained just by replacing ${\bf Q}$ and ${\bf R}$ in classic KF with $\E_{\theta_1}[{\bf R}^{\theta_1}|\mathcal{Y}_k]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}|\mathcal{Y}_k]$ respectively, shown as Algorithm \ref{al:OBKF}.
+
+\begin{algorithm}[]
+\caption{OBKF}
+\begin{algorithmic}[1]
+    \label{al:OBKF}
+\REQUIRE ${\bf \hat x}^{\theta}_k$, $\E_{\theta}[\bm{P^{x, \theta}}_{k}|\mathcal{Y}_{k-1}]$, $\mathcal{Y}_k$
+\STATE $\tilde {\bf z}^{\bm{\theta}}_k = {\bf y}^{\bm{\theta}}_k - {\bf H}_k{\bf \hat x}^{\bm{\theta}}_k$
+\STATE ${\bf K}^{\bm {\Theta^*}}_k = \E_{\theta}[\bm{P^{x, \theta}}_k|\mathcal{Y}_{k-1}]{\bf H}^T_k\E_{\theta}^{-1}[{\bf H}_k\bm{P^{x, \theta}}_k{\bf H}^T_k+{\bf R^{\theta_2}}|\mathcal{Y}_{k-1}]$
+\STATE $\hat{\bf x}^{\theta}_{k+1} = {\bm {\Phi}}_k{\bf \hat x}^{\theta}_k+{\bm {\Phi}}_k{\bf K}^{\bm {\Theta}}_k{\bf \tilde z}^{\theta}_k$
+\STATE $\E_{\theta}[\bm{P^{x, \theta}}_{k+1}|\mathcal{Y}_k] = \bm{\Phi}_k({\bf I}-{\bf K}^{\bm {\Theta^*}}_k{\bf H}_k)\E_{\theta}[\bm{P^{x, \theta}}_k|\mathcal{Y}_k]{\bm {\Phi}}^T_k + {\bm {\Gamma}}_k\E_{\theta_1}[{\bm {Q^{\theta_1}}}|\mathcal{Y}_k]{\bm {\Gamma}}_k^T$
+\ENSURE ${\bf \hat x}^{\theta}_{k+1}$, $\E_{\theta}[\bm{P^{x, \theta}}_{k+1}|\mathcal{Y}_{k}]$
+\end{algorithmic}
+\end{algorithm}
+
+Now the only remaining problem is how to find the posterior expectations: $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$.
+
+To calculate them, the posterior distribution $\pi(\bm{\theta}|\mathcal{Y}_k)$ is necessary. Since there is no closed-form solution for $\pi(\bm{\theta}|\mathcal{Y}_k)$, the author of this paper employs MCMC to approximate $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$.
+
+The posterior distribution is proportinal to the product of its likelihood and prior distribution, i.e., $\pi (\bm{\theta}|\mathcal{Y}_k) \propto f(\mathcal{Y}_k|\bm{\theta})\pi(\bm{\theta})$. Then, once the likelihood function $f(\mathcal{Y}_k|\bm{\theta})$ is obtained, we can run the MCMC.
+
+From the Markov assumption of the system, $\bm{y}_k$ depends only on $\bm{x}_k$ and $\bm{\theta}$. Then, the likelihood function is transformed as,
+
+\begin{align} \label{eq:likelihood}
+&f(\mathcal{Y}_k|\bm{\theta}) \nonumber\\
+& = \int\cdot\cdot\cdot\int f(\mathcal{Y}_k, \mathcal{X}_k|\bm{\theta})dx_0...dx_k \nonumber\\
+& = \int\cdot\cdot\cdot\int \prod^{k}_{i=0}f(\bm{y}_i| \bm{x}_i,\bm{\theta})\nonumber\\
+&\;\;\;\;\;\;\;\;\;\;\prod^{k}_{i=1}f(\bm{x}_i|\bm{x}_{i-1}, \bm{\theta})f(\bm{x}_0)dx_0...dx_k
+\end{align}
+
+Since this equation (\ref{eq:likelihood}) is a factorization, it can be expressed as a factor-graph, and we can use sum-product algorithm\cite{Kschischang2001} to compute $f(\mathcal{Y}_k|\bm{\theta})$. Then, the likelihood function is obtained as the Algorithm \ref{al:likelihood}.
+
+\begin{algorithm}[]
+\caption{Factor-Graph-Based Likelihood Function Calculation}
+\begin{algorithmic}[1]
+    \label{al:likelihood}
+\REQUIRE $\bm{\theta}$, $\mathcal{Y}_k$
+\STATE $\bm{ M}_0 \leftarrow \E[\bm{ x}_0]$
+\STATE $S_0 \leftarrow 1$
+\STATE $\bm { \Sigma}_0 \leftarrow {\rm cov}[\bm{ x}_0]$
+\STATE $i \leftarrow 0$
+\WHILE {$i \leq k-1$}
+    \STATE $\bm{ W}_i\leftarrow \bm{ H}_i^T(\bm{ R}^{\theta_2})^{-1}\bm{ y}_i + \bm { \Sigma}_i^{-1}\bm{ M}_i$
+    \STATE $\bm{ \Lambda}_i^{-1}\leftarrow \bm{ \Phi}_i^T(\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi}_i + \bm{ H}_i^{T}(\bm{ R}^{\theta_2})^{-1}\bm{ H}_i+\bm { \Sigma}_i^{-1}$
+    \STATE $\bm { \Sigma}_{i+1}^{-1}\leftarrow (\bm{ \tilde Q}_i^{\theta_1})^{-1} - (\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi}_i\bm{ \Lambda}_i\bm{ \Phi}_i^T(\bm{ \tilde Q}_i^{\theta_1})^{-1}$
+    \STATE $\bm{ M}_{i+1}\leftarrow \bm { \Sigma}_{i+1}(\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi_i}\bm{ \Lambda}_i(\bm{ H}_i^T(\bm{ R}^{\theta_2})^{-1}\bm{ y}_i+\bm { \Sigma}_i^{-1}\bm{ M}_i)$
+    \STATE $S_{i+1} \leftarrow {\rm using Eq.(29) in the paper}$
+    \STATE $i \leftarrow i+1$
+\ENDWHILE
+\STATE $\bm{ \Delta}_k^{-1}\leftarrow \bm{ H}_k^T(\bm{ R}^{\theta_2})^{-1}\bm{ H}_k + \bm { \Sigma}_k^{-1}$
+\STATE $\bm{ G}_k \leftarrow \bm{ \Delta}_k(\bm{ H}_k^T(\bm{ R}^{\theta_2})^{-1}\bm{ y}_k + \bm { \Sigma}_k^{-1}\bm{ M}_k)$
+\STATE $f(\mathcal{Y}_k|\theta) \leftarrow {\rm using Eq.(34) in the paper}$
+\ENSURE $f(\mathcal{Y}_k|\theta)$
+\end{algorithmic}
+\end{algorithm}

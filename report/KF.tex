@@ -1,0 +1,49 @@
+\section{Kalman filter\label{sec: kf}}
+
+The classic KF is the optimal linear estimator for linear dynamic systems. A linear dynamic system is written as
+
+\begin{align}
+{\bf x}_{k+1} &= \bm{\Phi}_k{\bf x}_{k} + \bm{\Gamma}_k{\bf u}_{k}\\
+{\bf y}_{k} &= {\bf H}_k{\bf x}_{k} + {\bf v}_{k}
+\end{align}
+
+Where, 
+\begin{itemize}
+    \item ${\bf x}_k$: {\it state vector}
+    \item ${\bf y}_k$: {\it observation vector}
+    \item ${\bf u}_k$, ${\bf v}_k$: {\it zero-mean gaussian noise vector}
+    \item $\bm{\Phi}_k, \; \bm{\Gamma}_k, \; \bm{H}_k$: {\it transition matrix}
+\end{itemize}
+
+And the noise statistics are:
+
+\begin{align}
+    \E[{\bf u}_k{\bf u}_l^T]&={\bf Q}\delta_{kl},\;
+    \E[{\bf v}_k{\bf v}_l^T]={\bf R}\delta_{kl},\; \forall k,l=0,1,...\\
+    \E[{\bf v}_k{\bf x}_l^T]&={\bf 0},\;\;\;\;\;\;
+    \E[{\bf u}_k{\bf v}_l^T]={\bf 0}\; \forall k,l=0,1,...\\
+    \E[{\bf u}_k{\bf y}_l^T]&={\bf 0}, \;\; 0\leq l\leq k,
+\end{align}
+
+For such linear dynamic systems, the classic KF provides the linear estimation $\bm{\hat x}_k$ minimizing the mean squared error based on the observations $\bm{y}_l$, $l\leq k-1$. The estimated state vector is given as,
+
+\begin{equation} \label{eq:cost}
+    \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E[|\bm{x}_k-\bm{\hat x}_k|^2]
+\end{equation}
+
+Let the mean of the estimated $\bm{\hat x}_k$ be itself $\bm{\hat x}_k$ and the covariance of it be as ${\bf P^x}_{k}$. Then, the classic KF algorithm is obtained by the Algorithm \ref{al:KF}.
+
+\begin{algorithm}[H]
+\caption{Classic Kalman Filter}
+\begin{algorithmic}[1]
+\label{al:KF}
+\REQUIRE ${\bf \hat x}_k$, ${\bf P^x}_{k}$, ${\bf y}_k$
+\STATE $\tilde {\bf z}_k = {\bf y}_k - {\bf H}_k{\bf \hat x}_k$
+\STATE ${\bf K}_k = {\bf P^x}_k{\bf H}^T_k({\bf H}_k{\bf P^x}_k{\bf H}^T_k+{\bf R})^{-1}$
+\STATE $\hat{\bf x}_{k+1} = \bm{\Phi}_k{\bf \hat x}_k+\bm{\Phi}_k{\bf K}_k{\bf \tilde z}_k$
+\STATE ${\bf P^x}_{k+1} = \bm{\Phi}_k({\bf I}-{\bf K}_k{\bf H}_k){\bf P^x}_k\bm{\Phi}^T_k + \bm{\Gamma}_k{\bf Q}\bm{\Gamma}_k^T$
+\ENSURE ${\bf \hat x}_{k+1}$, ${\bf P^x}_{k+1}$
+\end{algorithmic}
+\end{algorithm}
+
+This algorithm minimizes the (\ref{eq:cost}), but it has a problem. This algorithm provides poor estimation if the covariance matrix ${\bf Q}$ and ${\bf R}$ is very different from the exact value. Therefore, a robust method is required to manage this problem.

@@ -84,6 +84,8 @@
 \floatname{algorithm}{Algorithm}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits}
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -103,10 +105,22 @@ University of California Davis\\ % Your institution for the title page
 \begin{document}
 
 \begin{frame}
+    \pnote{
+    * 名前とタイトルを言う
+    * There are lots of math in this slides, but I don't explain everything. 
+    please review it if you are interested in
+    }
 \titlepage % Print the title page as the first slide
 \end{frame}
 
 \begin{frame}
+    \pnote{
+        * このプレゼンはこの目次に従って進める \\ 
+        \\
+        * First, I talk about the overview of this Paper \\
+        * Second, I'll talk the overview of Kalman Filter \\
+        * Then, go to the IBR Kalman Filter, the base of the OBKF, and Finally go to the OBKF
+    }
 \frametitle{Overview} % Table of contents slide, comment this block out to remove it
 \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 \end{frame}

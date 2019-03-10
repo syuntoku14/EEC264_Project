@@ -1,0 +1,14 @@
+\section{Introduction\label{introduction}}
+
+This report explains about a paper "Optimal Bayesian Kalman Filtering with Prior Update"\cite{Dehghannasiri2018}. 
+The optimal bayesian Kalman Filter(OBKF) is an advanced version of the intrinsically bayesian robust Kalman filter(IBRKF)\cite{Dehghannasiri2017}, which is a Kalman filter exploiting the prior knowledge for the model.
+
+The Kalman filter(classic KF)\cite{Kalman1960} is a widely used technique to estimate the state vector of a linear dynamics system from its previous estimation and the measurement. Although it provides the best estimation in some condition, it has a problem. 
+That is, the classic KF is highly sensitive to the noise covariance of the target linear dynamic system\cite{Sangsuk-Iam1990}. To manage this problem, mainly two robust approaches, bayesian approach and non-bayesian approach, have been studied. 
+
+The adaptive Kalman filter\cite{Myers1976}\cite{Mehra1972} is a non-bayesian approach to achieve the robustness towards the uncertain system. It estimates the covariance matrixes during the state estimation. Although it doesn't require any prior knowledge, the adaptive KF has a problem. That is, it needs a lot of observation data to tune the parameter. 
+On the other hand, the bayesian approach doesn't require so many data comared with non-bayesian approaches. The bayesian approach Kalman filter, IBRKF, is robust in the sense of that it minimizes the average MSE relative to the prior distribution. 
+
+The IBRKF achieves the robustness in bayesian sense, but it doesn't utilizes the any information obtained from the observation. The OBKF exploits the both prior knowledge and the observation data, and it achieves the optimal estimation relative to the posterior distribution.
+
+The rest of this paper is organized as follows. Section \ref{sec: kf} shows the overview of the classic Kalman filter and its problem. In section \ref{sec: ibr}, a bayesian approach, IBR Kalman filter is explained. Section \ref{sec: obkf} describes the OBKF, which is the main algorithm in this paper.

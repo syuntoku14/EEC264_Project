@@ -6,25 +6,27 @@
 \subsection{Basic Idea}
 \begin{frame}{Basic Idea}
     \begin{itemize}
-        \item Assume the prior distribution for the uncertainty of the covariance matrices
-        \item Guarantee the best average performance relative to the prior distribution
+        \item Assume the prior distribution $\pi(\theta)$ for the uncertainty of the covariance matrices
+        \item Best estimation relative to $\pi(\theta)$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))^T\times ({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))]]$
     \end{itemize}
 \end{frame}
 
-\subsection{Baysian Setup}
-\begin{frame}{Bayesian Setup}
-Using ${\bf \theta}=[\theta_1, \theta_2]$, assume the covariance matrices of the noise are parameterized as: 
-\begin{align*}
-E[{\bf u}^{\theta_1}_k ({\bf u}^{\theta_1}_l)^T]&={\bf Q}^{\theta_1}\delta_{kl}\\
-E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]&={\bf R}^{\theta_2}\delta_{kl}
-\end{align*}
-And assume the prior distribution $\pi({\bf \theta})$
-\end{frame}
+% \subsection{Baysian Setup}
+% \begin{frame}{Bayesian Setup}
+% Using ${\bf \theta}=[\theta_1, \theta_2]$, assume the covariance matrices of the noise are parameterized as: 
+% \begin{align*}
+% E[{\bf u}^{\theta_1}_k ({\bf u}^{\theta_1}_l)^T]&={\bf Q}^{\theta_1}\delta_{kl}\\
+% E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]&={\bf R}^{\theta_2}\delta_{kl}
+% \end{align*}
+% And assume the prior distribution $\pi({\bf \theta})$
+% \end{frame}
 
 \subsection{Algorithm}
 \begin{frame}{Algorithm: IBR Kalman Filter}
 
-IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Calssic Kalman Filter with $E_{\theta_1}[{\bf R}^{\theta_1}]$ and $E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively
+\begin{itemize}
+    \item IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $E_{\theta_1}[{\bf R}^{\theta_1}]$ and $E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively
+\end{itemize}
 
 \begin{algorithm}[H]
 \caption{IBR Kalman Filter}

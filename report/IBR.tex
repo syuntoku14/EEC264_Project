@@ -1,0 +1,30 @@
+\section{IBR Kalman Filter\label{sec: ibr}}
+
+The IBRKF is a robust Kalman filter relative to the prior knowledge. It exploits the prior knowledge of the unknown parameters, and provides the robust estimation relative to the prior distribution. 
+
+To begin with, suppose the noise covariance are expressed by unknown parameter vector $\bm{\theta}=[\theta_1, \theta_2]$. It is governed by the prior distribution $\pi(\bm{\theta})$, and the noise statistics is written as
+\begin{align}
+    \E[{\bf u}^{\theta_1}_k ({\bf u}^{\theta_1}_l)^T]={\bf Q}^{\theta_1}\delta_{kl} \\
+    \E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]={\bf R}^{\theta_2}\delta_{kl} 
+\end{align}
+
+The IBKF is robust in the sense of that it minimizes the cost function relative to the prior distribution. That means, the IBRKF produces the $\bm{\hat x}_k$ as
+\begin{equation} \label{eq:ibrcost}
+    \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E_{\bm{\theta}}[\E[|\bm{x}_k-\bm{\hat x}_k|^2]]
+\end{equation}
+The algorithm which provides (\ref{eq:ibrcost}) is pretty similar to the one of classic KF. It's obtained by the Algorithm \ref{al:IBR}.
+
+\begin{algorithm}[]
+\caption{IBR Kalman Filter}
+\begin{algorithmic}[1]
+    \label{al:IBR}
+\REQUIRE ${\bf \hat x}^{\bm{\theta}}_k$, $\E_{\bm{\theta}}[{\bf P}^{\bm{x, \theta}}_{k}]$, ${\bf y}^{\bm{\theta}}_k$
+\STATE $\tilde {\bf z}^{\bm{\theta}}_k = {\bf y}^{\bm{\theta}}_k - {\bf H}_k{\bf \hat x}^{\bm{\theta}}_k$
+\STATE ${\bf K}^{\Theta}_k = \E_{\bm{\theta}}[{\bf P}^{\bm{x, \theta}}_k]{\bf H}^T_k\E_{\bm{\theta}}^{-1}[{\bf H}_k{\bf P}^{\bm{x, \theta}}_k{\bf H}^T_k+{\bf R}^{\bm{\theta_2}}]$
+\STATE $\hat{\bf x}^{\bm{\theta}}_{k+1} = {\Phi}_k{\bf \hat x}^{\bm{\theta}}_k+{\Phi}_k{\bf K}^{\bm{\Theta}}_k{\bf \tilde z}^{\bm{\theta}}_k$
+\STATE $\E_{\bm\theta}[{\bf P}^{\bm{x, \theta}}_{k+1}] = {\Phi}_k({\bf I}-{\bf K}^{\Theta}_k{\bf H}_k)\E_{\bm\theta}[{\bf P}^{\bm{x, \theta}}_k]{\Phi}^T_k + {\Gamma}_k\E_{\theta_1}[{\bf Q}^{\theta_1}_k]{\Gamma}_k^T$
+\ENSURE ${\bf \hat x}^{\bm{\theta}}_{k+1}$, $\E_{\bm\theta}[{\bf P}^{\bm{x, \theta}}_{k+1}]$
+\end{algorithmic}
+\end{algorithm}
+
+It's worth nothing that the IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $\E_{\theta_1}[{\bf R}^{\theta_1}]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively.

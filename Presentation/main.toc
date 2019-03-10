@@ -4,15 +4,14 @@
 \beamer@subsectionintoc {2}{1}{Basic Idea}{6}{0}{2}
 \beamer@subsectionintoc {2}{2}{Algorithm}{7}{0}{2}
 \beamer@subsectionintoc {2}{3}{Problem of Kalman Filter}{9}{0}{2}
-\beamer@subsectionintoc {2}{4}{Solutions of the Problem}{10}{0}{2}
-\beamer@sectionintoc {3}{A Bayesian Solution: IBR Kalman Filter}{13}{0}{3}
-\beamer@subsectionintoc {3}{1}{Basic Idea}{14}{0}{3}
-\beamer@subsectionintoc {3}{2}{Baysian Setup}{15}{0}{3}
-\beamer@subsectionintoc {3}{3}{Algorithm}{16}{0}{3}
+\beamer@subsectionintoc {2}{4}{Solutions of the Problem}{11}{0}{2}
+\beamer@sectionintoc {3}{A Bayesian Solution: IBR Kalman Filter}{14}{0}{3}
+\beamer@subsectionintoc {3}{1}{Basic Idea}{15}{0}{3}
+\beamer@subsectionintoc {3}{2}{Algorithm}{16}{0}{3}
 \beamer@sectionintoc {4}{Prior update: Optimal Bayesian Kalman Filter}{17}{0}{4}
 \beamer@subsectionintoc {4}{1}{Basic Idea}{18}{0}{4}
 \beamer@subsectionintoc {4}{2}{Algorithm}{19}{0}{4}
 \beamer@subsectionintoc {4}{3}{Find Posterior Expectations}{21}{0}{4}
-\beamer@subsectionintoc {4}{4}{Performance}{22}{0}{4}
-\beamer@subsectionintoc {4}{5}{Problems and Future Works}{24}{0}{4}
-\beamer@sectionintoc {5}{Summery}{25}{0}{5}
+\beamer@subsectionintoc {4}{4}{Performance}{23}{0}{4}
+\beamer@subsectionintoc {4}{5}{Problems and Future Works}{25}{0}{4}
+\beamer@sectionintoc {5}{Summary}{26}{0}{5}

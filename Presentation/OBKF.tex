@@ -9,15 +9,16 @@
     \begin{itemize}
         \item Based on the IBR Kalman Filter
         \item Utilize measured data $\mathcal{Y}_{k}=\{{\bf y}_0,...,{\bf y}_{k}\}$to obtain the posterior distribution $\pi(\theta|\mathcal{Y}_k)$
-        \item Optimize the estimation over the posterior distribution 
+        \item Best estimation relative to $\pi(\theta|\mathcal{Y}_{k-1})$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))^T\times ({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))]|\mathcal{Y}_{k-1}]$
     \end{itemize}
 \end{frame}
 
 
 \subsection{Algorithm}
 \begin{frame}{Algorithm: OBKF}
-
-OBKF is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Calssic Kalman Filter with $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ respectively
+\begin{itemize}
+    \item OBKF is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ respectively
+\end{itemize}
 \begin{algorithm}[H]
 \caption{OBKF}
 \begin{algorithmic}[1]
@@ -32,43 +33,74 @@ OBKF is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Calssic Kalman Filter
 
 \pause
 
-How to find the posterior expectations: $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ ?
+How are the posterior expectations found: $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_2}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ ?
 
 \end{frame}
 
 \subsection{Find Posterior Expectations}
-\begin{frame}{Find Posterior Expectatoins: $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$}
+\begin{frame}{Find Posterior Expectatoins: $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_2}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$}
 \begin{itemize}
-    \item Approximate $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ using Metropolis Hastings MCMC
+    \item Approximate $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_2}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ using Metropolis Hastings MCMC
     \item MCMC requires the likelihood function $f(\mathcal{Y}_k|\theta)$
     \item $f(\mathcal{Y}_k|\theta)$ is calculated by:
     \begin{itemize}
         \item Marginalize $f(\mathcal{Y}_k, \mathcal{X}_k|\theta)$ over $\mathcal{X}_k$
-        \item Taking advantage of Markov Assumption, $f(\mathcal{Y}_k, \mathcal{X}_k|\theta)$ can be factorized
-        \item Using factor-graph, this step can simplify and become easy to understand
+        \item Factorize $f(\mathcal{Y}_k, \mathcal{X}_k|\theta)$ by the Markov assumption
+        \item Using the factor-graph, this step can be simplified 
+        \item $f(\mathcal{Y}_k|\theta)$ can be calculated by recursive algorithm
     \end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}{Algorithm: Likelihood Function Calculation}
+
+\begin{algorithm}[H]
+\caption{Factor-Graph-Based Likelihood Function Calculation}
+\begin{algorithmic}[1]
+\REQUIRE $\theta$, $\mathcal{Y}_k$
+\STATE ${\bf M}_0 \leftarrow E[{\bf x}_0],\; S_0 \leftarrow 1,\; {\bf \Sigma}_0 \leftarrow cov[{\bf x}_0], \; i \leftarrow 0$
+\WHILE {$i \leq k-1$}
+    \STATE ${\bf W}_i\leftarrow {\bf H}_i^T({\bf R}^{\theta_2})^{-1}{\bf y}_i + {\bf \Sigma}_i^{-1}{\bf M}_i$
+    \STATE ${\bf \Lambda}_i^{-1}\leftarrow {\bf \Phi}_i^T({\bf \tilde Q}_i^{\theta_1})^{-1}{\bf \Phi}_i + {\bf H}_i^{T}({\bf R}^{\theta_2})^{-1}{\bf H}_i+{\bf \Sigma}_i^{-1}$
+    \STATE ${\bf \Sigma}_{i+1}^{-1}\leftarrow ({\bf \tilde Q}_i^{\theta_1})^{-1} - ({\bf \tilde Q}_i^{\theta_1})^{-1}{\bf \Phi}_i{\bf \Lambda}_i{\bf \Phi}_i^T({\bf \tilde Q}_i^{\theta_1})^{-1}$
+    \STATE ${\bf M}_{i+1}\leftarrow {\bf \Sigma}_{i+1}({\bf \tilde Q}_i^{\theta_1})^{-1}{\bf \Phi_i}{\bf \Lambda}_i({\bf H}_i^T({\bf R}^{\theta_2})^{-1}{\bf y}_i+{\bf \Sigma}_i^{-1}{\bf M}_i)$
+    \STATE $S_{i+1} \leftarrow \text{using Eq.(29) in the paper}$
+    \STATE $i \leftarrow i+1$
+\ENDWHILE
+\STATE ${\bf \Delta}_k^{-1}\leftarrow {\bf H}_k^T({\bf R}^{\theta_2})^{-1}{\bf H}_k + {\bf \Sigma}_k^{-1}$
+\STATE ${\bf G}_k \leftarrow {\bf \Delta}_k({\bf H}_k^T({\bf R}^{\theta_2})^{-1}{\bf y}_k + {\bf \Sigma}_k^{-1}{\bf M}_k)$
+\STATE $f(\mathcal{Y}_k|\theta) \leftarrow \text{using Eq.(34) in the paper}$
+\ENSURE $f(\mathcal{Y}_k|\theta)$
+\end{algorithmic}
+\end{algorithm}
 \end{frame}
 
 \subsection{Performance}
 
 \begin{frame}{Performance: Accuracy}
 % Good image will inserted here
+% Bigger figure
+\pnote{
+    * figureはtheta1=1, theta2=knownの時のlocalizationについてのシミュレーション結果を示している。
+    * figureは各カルマンフィルタの精度を示している。縦軸が精度と同じだと思ってくれて構わない。黒線はtheta1=1を使用したクラシックカルマンフィルタであり、これ以上の精度は出すことは出来ない。図より、OBKFは他の手法と比較して最も早く最適なカルマンフィルタにconvergeしていることがわかる。
+}
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=10cm]{img/OBKF_r1.png}
-    \caption{Performance analysis for specific $R=\begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix}$ cited from \cite{Dehghannasiri2018} \protect\linebreak (a) OBKF achieves the lowest MSE \protect\linebreak (b) Empirical average and variance of $E[r|\mathcal{Y}_k]$ }
+    \includegraphics[width=7cm]{img/OBKF_r1.png}
+    \caption{Performance analysis for specific $\theta_1 = 1$ and known $\theta_2$  \protect\linebreak OBKF achieves the lowest MSE (cited from \cite{Dehghannasiri2018})}
     \label{fig:r_1}
     \end{center}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Performance: Data Efficiency}
-    
+    \pnote{
+    * figureはthetaがunknownであるときに高いMSEを達成するのに必要なstep数kを示している。
+    }
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=12cm]{img/cmp_adaptive.eps}
-    \caption{(a) Unknown r and comparison with the Myers method.\protect\linebreak (b) Unknown r and comparison with the Mehra method. cited from \cite{Dehghannasiri2018}}
+    \includegraphics[width=9cm]{img/cmp_adaptive.eps}
+    \caption{Unknown $\theta_1$ and comparison with an adaptive Kalman Filter (cited from \cite{Dehghannasiri2018})}
     \label{fig:cmp_adaptive}
     \end{center}
 \end{figure}
@@ -80,6 +112,6 @@ How to find the posterior expectations: $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathca
 \begin{frame}{Problems and Future Works}
 \begin{itemize}
     \item If the prior distribution doesn't include the true value, the estimation won't converge
-    \item Factor-graph and MCMC are computationally expensive. Finding efficient approach is a future work.
+    \item Factor-graph and MCMC are computationally expensive. Finding an efficient approach is a future work.
 \end{itemize}
 \end{frame}

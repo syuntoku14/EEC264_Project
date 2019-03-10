@@ -5,18 +5,20 @@
 
 \subsection{Basic Idea}
 \begin{frame}{Kalman Filter: Basic idea}
+    \pnote{* カルマンフィルタはinputに一つ前の推定をとり、それを観測とcombineしてbetterなものを出力することについて述べる}
 \begin{itemize}
     \item Outputs the optimal estimation of the state of a dynamic system
     \item Exploits both the prediction based on the model and the measurement
-    \item Application Example: Robot Localization
+    \item Robot Localization
 \end{itemize}
 \end{frame}
 
 \subsection{Algorithm}
-
 \begin{frame}[allowframebreaks]{Kalman Filter: Algorithm}  % ここに引用元が必要
+    \pnote{* カルマンフィルタが動作する線形動的システムについて、その表記をまとめているだけである旨を伝える\\
+    * このシステムのパラメータがわかっている限り、カルマンフィルタは動く}
 
-Kalman Filter works for linear dynamic systems:
+Works for linear dynamic systems:
 \begin{block}{Linear Dynamic System Example}
 \begin{align*}
 {\bf x}_{k+1} &= {\bf \Phi}_k{\bf x}_{k} + {\bf \Gamma}_k{\bf u}_{k}\notag\\
@@ -24,7 +26,7 @@ Kalman Filter works for linear dynamic systems:
 \end{align*}   
 \begin{itemize}
     \item ${\bf x}_k$: {\it state vector}
-    \item ${\bf z}_k$: {\it observation vector}
+    \item ${\bf y}_k$: {\it observation vector}
     \item ${\bf u}_k,\; {\bf v}_k$: {\it zero-mean noise vector}
     \item ${\bf \Phi}_k, \; {\bf \Gamma}_k, \; {\bf H}_k$: {\it transition matrix}
 \end{itemize}
@@ -34,6 +36,7 @@ Kalman Filter works for linear dynamic systems:
 
 \begin{algorithm}[H]
 \caption{Classic Kalman Filter}
+    \pnote{* 推定した平均と分散、観測データを利用して、k+1のestimationを出していることについて言う}
 \begin{algorithmic}[1]
 \REQUIRE ${\bf \hat x}_k$, ${\bf P^x}_{k}$, ${\bf y}_k$
 \STATE $\tilde {\bf z}_k = {\bf y}_k - {\bf H}_k{\bf \hat x}_k$
@@ -55,9 +58,24 @@ Kalman Filter works for linear dynamic systems:
 \subsection{Problem of Kalman Filter}
 
 \begin{frame}{Problems of Kalman Filter}
+    \pnote{* 先ほど見せたR, Qの値が真の値と離れてしまっている場合、Kalman Filterによる推定は精度が悪くなってしまうことについて述べる\\
+    * 理解を深めるため、以降で随時r=1である場合について例を出すことにいついて述べる}
 \begin{itemize}
-    \item The performance is sensitive to the accuracy of the noise covariance matrixes: ${\bf Q}$ and ${\bf R}$\cite{Sangsuk-Iam1990}
+    \item The performance is sensitive to the accuracy of the noise covariance matrixes: ${\bf Q}$ and ${\bf R}$  \cite{Sangsuk-Iam1990}
 \end{itemize}
+\end{frame}
+
+\begin{frame}{Uncertainty of the noise covariances}
+
+Assume the covariances are parameterized by ${\bf \theta}=[\theta_1, \theta_2]$
+
+\begin{itemize}
+    \item The covariance matrix of ${\bf u}$ is  ${\bf Q}^{\theta_1}$ (e.g. ${\bf Q}^{\theta_1}$ = $\theta_1{\bf I}$)
+    \item The covariance matrix of ${\bf v}$ is ${\bf R}^{\theta_2}$ (e.g. ${\bf R}^{\theta_2}=\theta_2{\bf I}$)
+    \item Unknown prameter: ${\bf \theta}=[\theta_1, \theta_2]$
+\end{itemize}
+
+If the $\theta$ used in the algorithm is very different from the true $\theta$, Kalman Filter provides a poor estimation
 \end{frame}
 
 \subsection{Solutions of the Problem}
@@ -66,20 +84,20 @@ Kalman Filter works for linear dynamic systems:
 \begin{itemize}
     \item Non-Bayesian Approach: Adaptive Kalman Filter
     \begin{itemize}
-        \item Doesn't require any prior knowledge
-        \item Require many data
+        \item Doesn't require any prior knowledge ($\theta$ is not a R.V.)
+        \item Requires a lot measured data
     \end{itemize}
     \pause
     \item Bayesian Approach: IBR Kalman Filter
     \begin{itemize}
-        \item Require prior knowledge
-        \item Robust: Guarantee the best average performance relative to the prior distribution
+        \item Require prior knowledge ($\theta$ is a R.V.)
+        \item Robust: Guarantees the best average performance relative to the prior distribution
     \end{itemize}
     \pause
     \item Bayesian Approach: Optimal Bayesian Kalman Filter
     \begin{itemize}
-        \item Require prior knowledge
-        \item Utilize measured data to estimate unknown parameters
+        \item Requires prior knowledge ($\theta$ is a R.V.)
+        \item Utilizes measured data to estimate unknown parameters
         \item Optimal over the posterior distribution obtained from measured data
     \end{itemize}
 \end{itemize}    

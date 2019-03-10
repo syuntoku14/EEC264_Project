@@ -1,1 +1,16 @@
 [notes]
+### 1
+ * 名前とタイトルを言う * There are lots of math in this slides, but I don't explain everything. please review it if you are interested in 
+### 2
+ * このプレゼンはこの目次に従って進める \\ \\ * First, I talk about the overview of this Paper \\ * Second, I'll talk the overview of Kalman Filter \\ * Then, go to the IBR Kalman Filter, the base of the OBKF, and Finally go to the OBKF 
+### 6
+* カルマンフィルタはinputに一つ前の推定をとり、それを観測とcombineしてbetterなものを出力することについて述べる
+### 7
+* カルマンフィルタが動作する線形動的システムについて、その表記をまとめているだけである旨を伝える\\ * このシステムのパラメータがわかっている限り、カルマンフィルタは動く
+* 推定した平均と分散、観測データを利用して、k+1のestimationを出していることについて言う
+### 9
+* 先ほど見せたR, Qの値が真の値と離れてしまっている場合、Kalman Filterによる推定は精度が悪くなってしまうことについて述べる\\ * 理解を深めるため、以降で随時r=1である場合について例を出すことにいついて述べる
+### 20
+ * figureはtheta1=1, theta2=knownの時のlocalizationについてのシミュレーション結果を示している。 * figureは各カルマンフィルタの精度を示している。縦軸が精度と同じだと思ってくれて構わない。黒線はtheta1=1を使用したクラシックカルマンフィルタであり、これ以上の精度は出すことは出来ない。図より、OBKFは他の手法と比較して最も早く最適なカルマンフィルタにconvergeしていることがわかる。 
+### 21
+ * figureはthetaがunknownであるときに高いMSEを達成するのに必要なstep数kを示している。 
