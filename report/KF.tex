@@ -3,8 +3,8 @@
 The classic KF is the optimal linear estimator for linear dynamic systems. A linear dynamic system is written as
 
 \begin{align}
-{\bf x}_{k+1} &= \bm{\Phi}_k{\bf x}_{k} + \bm{\Gamma}_k{\bf u}_{k}\\
-{\bf y}_{k} &= {\bf H}_k{\bf x}_{k} + {\bf v}_{k}
+{\bf x}_{k+1} &= \bm{\Phi}_k{\bf x}_{k} + \bm{\Gamma}_k{\bf u}_{k} \label{eq:linear1}\\
+{\bf y}_{k} &= {\bf H}_k{\bf x}_{k} + {\bf v}_{k} \label{eq:linear2}
 \end{align}
 
 Where, 
@@ -15,7 +15,7 @@ Where,
     \item $\bm{\Phi}_k, \; \bm{\Gamma}_k, \; \bm{H}_k$: {\it transition matrix}
 \end{itemize}
 
-And the noise statistics are:
+And the noise statistics are,
 
 \begin{align}
     \E[{\bf u}_k{\bf u}_l^T]&={\bf Q}\delta_{kl},\;
@@ -46,4 +46,4 @@ Let the mean of the estimated $\bm{\hat x}_k$ be itself $\bm{\hat x}_k$ and the 
 \end{algorithmic}
 \end{algorithm}
 
-This algorithm minimizes the (\ref{eq:cost}), but it has a problem. This algorithm provides poor estimation if the covariance matrix ${\bf Q}$ and ${\bf R}$ is very different from the exact value. Therefore, a robust method is required to manage this problem.
+This algorithm provides the best estimation which minimizes the cost function (\ref{eq:cost}) and provides the optimal estimation. However, the algorithm estimates poorly if the covariance matrix ${\bf Q}$ or ${\bf R}$ are very different from the exact value.

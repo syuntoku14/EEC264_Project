@@ -9,7 +9,7 @@
     \begin{itemize}
         \item Based on the IBR Kalman Filter
         \item Utilize measured data $\mathcal{Y}_{k}=\{{\bf y}_0,...,{\bf y}_{k}\}$to obtain the posterior distribution $\pi(\theta|\mathcal{Y}_k)$
-        \item Best estimation relative to $\pi(\theta|\mathcal{Y}_{k-1})$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))^T\times ({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))]|\mathcal{Y}_{k-1}]$
+        \item Best estimation relative to $\pi(\theta|\mathcal{Y}_{k-1})$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[|{\bf x_\theta}(k) - {\bf \hat x_\theta}(k)|^2]|\mathcal{Y}_{k-1}]$
     \end{itemize}
 \end{frame}
 
@@ -17,7 +17,7 @@
 \subsection{Algorithm}
 \begin{frame}{Algorithm: OBKF}
 \begin{itemize}
-    \item OBKF is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_1}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ respectively
+    \item OBKF is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_2}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ respectively
 \end{itemize}
 \begin{algorithm}[H]
 \caption{OBKF}
@@ -42,13 +42,7 @@ How are the posterior expectations found: $E_{\theta_1}[{\bf Q^{\theta_1}}|\math
 \begin{itemize}
     \item Approximate $E_{\theta_1}[{\bf Q^{\theta_1}}|\mathcal{Y}_k]$ and $E_{\theta_2}[{\bf R^{\theta_2}}|\mathcal{Y}_k]$ using Metropolis Hastings MCMC
     \item MCMC requires the likelihood function $f(\mathcal{Y}_k|\theta)$
-    \item $f(\mathcal{Y}_k|\theta)$ is calculated by:
-    \begin{itemize}
-        \item Marginalize $f(\mathcal{Y}_k, \mathcal{X}_k|\theta)$ over $\mathcal{X}_k$
-        \item Factorize $f(\mathcal{Y}_k, \mathcal{X}_k|\theta)$ by the Markov assumption
-        \item Using the factor-graph, this step can be simplified 
-        \item $f(\mathcal{Y}_k|\theta)$ can be calculated by recursive algorithm
-    \end{itemize}
+    \item $f(\mathcal{Y}_k|\theta)$ is calculated by sum-product algorithm\cite{Kschischang2001}
 \end{itemize}
 \end{frame}
 
@@ -86,7 +80,7 @@ How are the posterior expectations found: $E_{\theta_1}[{\bf Q^{\theta_1}}|\math
 }
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=7cm]{img/OBKF_r1.png}
+    \includegraphics[width=7cm]{img/OBKF_r1.eps}
     \caption{Performance analysis for specific $\theta_1 = 1$ and known $\theta_2$  \protect\linebreak OBKF achieves the lowest MSE (cited from \cite{Dehghannasiri2018})}
     \label{fig:r_1}
     \end{center}

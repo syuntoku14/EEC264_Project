@@ -21,8 +21,8 @@
 Works for linear dynamic systems:
 \begin{block}{Linear Dynamic System Example}
 \begin{align*}
-{\bf x}_{k+1} &= {\bf \Phi}_k{\bf x}_{k} + {\bf \Gamma}_k{\bf u}_{k}\notag\\
-{\bf y}_{k} &= {\bf H}_k{\bf x}_{k} + {\bf v}_{k}
+{\bf x}_{k+1} &= \textcolor{red}{{\bf \Phi}_k} {\bf x}_{k} + \textcolor{red}{{\bf \Gamma}_k{\bf u}_{k}}\notag\\
+{\bf y}_{k} &= \textcolor{red}{{\bf H}_k}{\bf x}_{k} + \textcolor{red}{{\bf v}_{k}}
 \end{align*}   
 \begin{itemize}
     \item ${\bf x}_k$: {\it state vector}
@@ -31,6 +31,8 @@ Works for linear dynamic systems:
     \item ${\bf \Phi}_k, \; {\bf \Gamma}_k, \; {\bf H}_k$: {\it transition matrix}
 \end{itemize}
 \end{block}
+
+The red parameters are necessary for the Kalman Filter
 
 \pause
 

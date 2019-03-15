@@ -29,8 +29,8 @@ r_max = 4.0;
 r = 1.0;
 r_specific_simulation(r, r_max, num_epoch, 1, 2);
 
-r = 3.0;
-r_specific_simulation(r, r_max, num_epoch, 3, 4);
+% r = 3.0;
+% r_specific_simulation(r, r_max, num_epoch, 3, 4);
 
 rmpath('../utils');
 rmpath('../filter');
@@ -49,7 +49,7 @@ function r_specific_simulation(r, r_max, num_epoch, n_figure1, n_figure2)
     plot(mm_err_list, 'LineStyle', '-.');
     plot(ibr_err_list);
     plot(obkf_err_list, 'LineStyle', '--');
-    plot(mapkf_err_list, 'LineStyle', ':');
+    plot(mapkf_err_list, 'LineStyle', ':', 'Color', 'b');
     legend('Model-Specific', 'Minimax', 'IBR', 'OBKF', 'MAP');
     xlabel('k'); ylabel('MSE');
     title(['r=', int2str(r)]);

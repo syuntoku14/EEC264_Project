@@ -29,7 +29,7 @@ To calculate them, the posterior distribution $\pi(\bm{\theta}|\mathcal{Y}_k)$ i
 
 The posterior distribution is proportinal to the product of its likelihood and prior distribution, i.e., $\pi (\bm{\theta}|\mathcal{Y}_k) \propto f(\mathcal{Y}_k|\bm{\theta})\pi(\bm{\theta})$. Then, once the likelihood function $f(\mathcal{Y}_k|\bm{\theta})$ is obtained, we can run the MCMC.
 
-From the Markov assumption of the system, $\bm{y}_k$ depends only on $\bm{x}_k$ and $\bm{\theta}$. Then, the likelihood function is transformed as,
+From the Markov assumption of the system, it can be assumed that $\bm{y}_k$ depends only on $\bm{x}_k$ and $\bm{\theta}$. Then, the likelihood function is calculated as,
 
 \begin{align} \label{eq:likelihood}
 &f(\mathcal{Y}_k|\bm{\theta}) \nonumber\\
@@ -38,7 +38,7 @@ From the Markov assumption of the system, $\bm{y}_k$ depends only on $\bm{x}_k$ 
 &\;\;\;\;\;\;\;\;\;\;\prod^{k}_{i=1}f(\bm{x}_i|\bm{x}_{i-1}, \bm{\theta})f(\bm{x}_0)dx_0...dx_k
 \end{align}
 
-Since this equation (\ref{eq:likelihood}) is a factorization, it can be expressed as a factor-graph, and we can use sum-product algorithm\cite{Kschischang2001} to compute $f(\mathcal{Y}_k|\bm{\theta})$. Then, the likelihood function is obtained as the Algorithm \ref{al:likelihood}.
+Since this equation (\ref{eq:likelihood}) is a factorization, it can be expressed as a factor-graph, and we can use sum-product algorithm\cite{Kschischang2001} to compute $f(\mathcal{Y}_k|\bm{\theta})$. Finally, the likelihood function is obtained as the Algorithm \ref{al:likelihood}.
 
 \begin{algorithm}[]
 \caption{Factor-Graph-Based Likelihood Function Calculation}
@@ -54,12 +54,12 @@ Since this equation (\ref{eq:likelihood}) is a factorization, it can be expresse
     \STATE $\bm{ \Lambda}_i^{-1}\leftarrow \bm{ \Phi}_i^T(\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi}_i + \bm{ H}_i^{T}(\bm{ R}^{\theta_2})^{-1}\bm{ H}_i+\bm { \Sigma}_i^{-1}$
     \STATE $\bm { \Sigma}_{i+1}^{-1}\leftarrow (\bm{ \tilde Q}_i^{\theta_1})^{-1} - (\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi}_i\bm{ \Lambda}_i\bm{ \Phi}_i^T(\bm{ \tilde Q}_i^{\theta_1})^{-1}$
     \STATE $\bm{ M}_{i+1}\leftarrow \bm { \Sigma}_{i+1}(\bm{ \tilde Q}_i^{\theta_1})^{-1}\bm{ \Phi_i}\bm{ \Lambda}_i(\bm{ H}_i^T(\bm{ R}^{\theta_2})^{-1}\bm{ y}_i+\bm { \Sigma}_i^{-1}\bm{ M}_i)$
-    \STATE $S_{i+1} \leftarrow {\rm using Eq.(29) in the paper}$
+    \STATE $S_{i+1} \leftarrow S_i\sqrt{\frac{|\bm{\Lambda}_i||\bm{\Sigma}_{i+1}|}{|\bm{ \tilde Q}_i^{\theta_1}||\bm{\Sigma}_i|)}}\mathcal{N}(\bm{y}_i;\bm{0}_{m\times1},\bm{R}^{{\theta}_2})\times\exp(\frac{\bm{M}^T_{i+1}\bm{\Sigma}^{-1}_{i+1}\bm{M}_{i+1}+\bm{W}^T_{i}\bm{\Lambda}_{i}\bm{W}_{i}-\bm{M}^T_{i}\bm{\Sigma}^{-1}_{i}\bm{M}_{i}}{2})$
     \STATE $i \leftarrow i+1$
 \ENDWHILE
 \STATE $\bm{ \Delta}_k^{-1}\leftarrow \bm{ H}_k^T(\bm{ R}^{\theta_2})^{-1}\bm{ H}_k + \bm { \Sigma}_k^{-1}$
 \STATE $\bm{ G}_k \leftarrow \bm{ \Delta}_k(\bm{ H}_k^T(\bm{ R}^{\theta_2})^{-1}\bm{ y}_k + \bm { \Sigma}_k^{-1}\bm{ M}_k)$
-\STATE $f(\mathcal{Y}_k|\theta) \leftarrow {\rm using Eq.(34) in the paper}$
+\STATE $f(\mathcal{Y}_k|\theta) \leftarrow S_k\sqrt{\frac{|\bm{\Delta}_k|}{|\bm{\Sigma}_k|}}\mathcal{N}(\bm{y}_k;\bm {0}_{m\times 1}, \bm{R}^{{\theta}_2})\times \exp(\frac{\bm{G}^T_{k}\bm{\Delta}^{-1}_{k}\bm{G}_{k}-\bm{M}^T_{k}\bm{\Sigma}^{-1}_{k}\bm{M}_{k}}{2})$
 \ENSURE $f(\mathcal{Y}_k|\theta)$
 \end{algorithmic}
 \end{algorithm}

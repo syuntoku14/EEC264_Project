@@ -7,7 +7,7 @@
 \begin{frame}{Basic Idea}
     \begin{itemize}
         \item Assume the prior distribution $\pi(\theta)$ for the uncertainty of the covariance matrices
-        \item Best estimation relative to $\pi(\theta)$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))^T\times ({\bf x_\theta}(k) - {\bf \hat x_\theta}(k))]]$
+        \item Robust estimation relative to $\pi(\theta)$: $\argmin_{{\bf \hat x_\theta}(k)} E_\theta[E[|{\bf x_\theta}(k) - {\bf \hat x_\theta}(k)|^2]]$
     \end{itemize}
 \end{frame}
 

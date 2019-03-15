@@ -25,6 +25,11 @@ Kalman, R.~E. (1960).
 \newblock {A New Approach to Linear Filtering and Prediction Problems}.
 \newblock {\em Journal of Basic Engineering}, 82(1):35.
 
+\bibitem[Kschischang et~al., 2001]{Kschischang2001}
+Kschischang, F.~R., Frey, B.~J., and Loeliger, H.-A. (2001).
+\newblock {Factor Graphs and the Sum-Product Algorithm}.
+\newblock Technical Report~2.
+
 \bibitem[Sangsuk-Iam and Bullock, 1990]{Sangsuk-Iam1990}
 Sangsuk-Iam, S. and Bullock, T. (1990).
 \newblock {Analysis of discrete-time Kalman filtering under incorrect noise

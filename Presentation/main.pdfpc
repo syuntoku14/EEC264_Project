@@ -1,3 +1,5 @@
+[file]
+main.pdf
 [notes]
 ### 1
  * 名前とタイトルを言う * There are lots of math in this slides, but I don't explain everything. please review it if you are interested in 
@@ -13,4 +15,4 @@
 ### 20
  * figureはtheta1=1, theta2=knownの時のlocalizationについてのシミュレーション結果を示している。 * figureは各カルマンフィルタの精度を示している。縦軸が精度と同じだと思ってくれて構わない。黒線はtheta1=1を使用したクラシックカルマンフィルタであり、これ以上の精度は出すことは出来ない。図より、OBKFは他の手法と比較して最も早く最適なカルマンフィルタにconvergeしていることがわかる。 
 ### 21
- * figureはthetaがunknownであるときに高いMSEを達成するのに必要なstep数kを示している。 
+ * figureはthetaがunknownであるときに高いMSEを達成するのに必要なstep数kを示している。
