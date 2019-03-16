@@ -1,6 +1,6 @@
 \section{Kalman filter\label{sec: kf}}
 
-The classic KF is the optimal linear estimator for linear dynamic systems. A linear dynamic system is written as
+The classic KF is the optimal linear estimator for linear dynamic systems. A linear dynamic system is written as the following equations.
 
 \begin{align}
 {\bf x}_{k+1} &= \bm{\Phi}_k{\bf x}_{k} + \bm{\Gamma}_k{\bf u}_{k} \label{eq:linear1}\\
@@ -46,4 +46,4 @@ Let the mean of the estimated $\bm{\hat x}_k$ be itself $\bm{\hat x}_k$ and the 
 \end{algorithmic}
 \end{algorithm}
 
-This algorithm provides the best estimation which minimizes the cost function (\ref{eq:cost}) and provides the optimal estimation. However, the algorithm estimates poorly if the covariance matrix ${\bf Q}$ or ${\bf R}$ are very different from the exact value.
+This algorithm provides the best estimation which minimizes the cost function (\ref{eq:cost}) and provides the optimal estimation. However, the algorithm estimates poorly if the covariance matrix ${\bf Q}$ or ${\bf R}$ are very different from the exact value. This drawback is explained in \cite{Sangsuk-Iam1990}.

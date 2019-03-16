@@ -6,11 +6,13 @@ The IBRKF is a robust Kalman filter exploiting the prior knowledge. To begin wit
     \E[{\bf v}^{\theta_2}_k ({\bf v}^{\theta_2}_l)^T]={\bf R}^{\theta_2}\delta_{kl} 
 \end{align}
 
-The IBRKF is robust in the sense of that it minimizes the cost function (\ref{eq:cost}) relative to the prior distribution. That means, the IBRKF produces the $\bm{\hat x}_k$ as
+The IBRKF is robust in the sense of that it minimizes the cost function (\ref{eq:cost}) relative to the prior distribution. That means, the IBRKF produces the $\bm{\hat x}_k$ given as
+
 \begin{equation} \label{eq:ibrcost}
     \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E_{\bm{\theta}}[\E[|\bm{x}_k-\bm{\hat x}_k|^2]]
 \end{equation}
-The algorithm which provides (\ref{eq:ibrcost}) is pretty similar to the one of classic KF. It's obtained by the Algorithm \ref{al:IBR}.
+
+The algorithm which provides (\ref{eq:ibrcost}) is similar to the one of classic KF. It's obtained by the Algorithm \ref{al:IBR}.
 
 \begin{algorithm}[]
 \caption{IBR Kalman Filter}
