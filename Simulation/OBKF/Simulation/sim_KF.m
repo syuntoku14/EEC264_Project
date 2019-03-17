@@ -27,6 +27,7 @@ function [mse_list, mean_list] = sim_KF(r, r_, name_KF, num_epoch)
     mean_list = cell(num_k, 1);
 
     for epoch = 1:num_epoch
+        tic;
         x_k = x_0;
         y_list = {};
         if strcmp(name_KF, 'ClassicKF')
@@ -57,6 +58,8 @@ function [mse_list, mean_list] = sim_KF(r, r_, name_KF, num_epoch)
             mse_list(k) = mse_list(k) + trace(KF.err_cov_k);
             x_k = x_k1;
         end
+        runtime = toc;
+        disp(['"epoch', num2str(epoch), '": ', num2str(runtime), ' sec']); 
     end
     mse_list = mse_list ./ num_epoch; 
     mse_list = mse_list(2:end);

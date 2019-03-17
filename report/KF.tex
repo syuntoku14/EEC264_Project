@@ -15,7 +15,7 @@ Where,
     \item $\bm{\Phi}_k, \; \bm{\Gamma}_k, \; \bm{H}_k$: {\it transition matrix}
 \end{itemize}
 
-And the noise statistics are,
+And the noise statistics are as follows.
 
 \begin{align}
     \E[{\bf u}_k{\bf u}_l^T]&={\bf Q}\delta_{kl},\;
@@ -25,7 +25,7 @@ And the noise statistics are,
     \E[{\bf u}_k{\bf y}_l^T]&={\bf 0}, \;\; 0\leq l\leq k,
 \end{align}
 
-For such linear dynamic systems, the classic KF provides the linear estimation $\bm{\hat x}_k$ minimizing the mean squared error based on the observations $\bm{y}_l$, $l\leq k-1$. The estimated state vector is given as,
+For such linear dynamic systems, the classic KF provides the linear estimation $\bm{\hat x}_k$ minimizing the mean squared error based on the observations $\bm{y}_l$, $l\leq k-1$. In other words, the estimated state vector is given as the following equation.
 
 \begin{equation} \label{eq:cost}
     \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E[|\bm{x}_k-\bm{\hat x}_k|^2]
@@ -46,4 +46,4 @@ Let the mean of the estimated $\bm{\hat x}_k$ be itself $\bm{\hat x}_k$ and the 
 \end{algorithmic}
 \end{algorithm}
 
-This algorithm provides the best estimation which minimizes the cost function (\ref{eq:cost}) and provides the optimal estimation. However, the algorithm estimates poorly if the covariance matrix ${\bf Q}$ or ${\bf R}$ are very different from the exact value. This drawback is explained in \cite{Sangsuk-Iam1990}.
+This algorithm provides the best estimation which minimizes the cost function (\ref{eq:cost}) and provides the optimal estimation. However, the algorithm estimates poorly if the covariance matrix ${\bf Q}$ or ${\bf R}$ are very different from the exact value. This drawback is proved in \cite{Sangsuk-Iam1990}.

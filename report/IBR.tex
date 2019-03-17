@@ -12,7 +12,7 @@ The IBRKF is robust in the sense of that it minimizes the cost function (\ref{eq
     \bm{\hat x}_k = \argmin_{\bm{\hat x}_k}\E_{\bm{\theta}}[\E[|\bm{x}_k-\bm{\hat x}_k|^2]]
 \end{equation}
 
-The algorithm which provides (\ref{eq:ibrcost}) is similar to the one of classic KF. It's obtained by the Algorithm \ref{al:IBR}.
+The IBRKF algorithm which provides (\ref{eq:ibrcost}) is similar to the one of classic KF. It's obtained by the Algorithm \ref{al:IBR}.
 
 \begin{algorithm}[]
 \caption{IBR Kalman Filter}
@@ -27,4 +27,4 @@ The algorithm which provides (\ref{eq:ibrcost}) is similar to the one of classic
 \end{algorithmic}
 \end{algorithm}
 
-It's worth nothing that the IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $\E_{\theta_1}[{\bf R}^{\theta_1}]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively. Since the covariance matrixes are same during the algorithm, the computational cost is exactly same as the classic KF. 
+It's worth nothing that the IBR Kalman Filter is obtained just replacing ${\bf Q}$ and ${\bf R}$ in Classic Kalman Filter with $\E_{\theta_1}[{\bf R}^{\theta_1}]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}]$ respectively. Since the covariance matrixes are same during the algorithm, the computational cost is almost same as the classic KF. 

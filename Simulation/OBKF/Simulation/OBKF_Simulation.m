@@ -10,7 +10,7 @@ addpath('../model');
 clear all; close all;
 conf_interval = 0.95;
 
-num_epoch = 200;
+num_epoch = 10;
 
 %% true_model setup
 % Initial State
@@ -38,11 +38,25 @@ rmpath('../model');
 
 function r_specific_simulation(r, r_max, num_epoch, n_figure1, n_figure2)
     %% Simulation
+    disp('ClassicKF: ');
     specific_err_list = sim_KF(r, r, 'ClassicKF', num_epoch);
+    
+    fprintf('\n');
+    disp('minimaxKF: ');
     mm_err_list = sim_KF(r, r_max, 'ClassicKF', num_epoch);
+    
+    fprintf('\n');
+    disp('IBRKF: ');
     ibr_err_list = sim_KF(r, r, 'IBRKF', num_epoch);
+    
+    fprintf('\n');
+    disp('OBKF: ');
     [obkf_err_list, mean_list] = sim_KF(r, r, 'OBKF', num_epoch);
+    
+    fprintf('\n');
+    disp('MAPKF: ');
     mapkf_err_list = sim_KF(r, r, 'MAPKF', num_epoch);
+    fontsize = 15;
     
     fig = figure(n_figure1); hold on;
     plot(specific_err_list);
@@ -51,7 +65,7 @@ function r_specific_simulation(r, r_max, num_epoch, n_figure1, n_figure2)
     plot(obkf_err_list, 'LineStyle', '--');
     plot(mapkf_err_list, 'LineStyle', ':', 'Color', 'b');
     legend('Model-Specific', 'Minimax', 'IBR', 'OBKF', 'MAP');
-    xlabel('k'); ylabel('MSE');
+    xlabel('\it k', 'FontSize', fontsize); ylabel('MSE', 'FontSize', fontsize);
     title(['r=', int2str(r)]);
     saveas(fig, ['../result/r',int2str(r),'mse.png']);
     hold off;
@@ -60,7 +74,7 @@ function r_specific_simulation(r, r_max, num_epoch, n_figure1, n_figure2)
     mean_list_mean = cellfun(@mean, mean_list);
     mean_list_val = cellfun(@var, mean_list);
     errorbar(mean_list_mean, mean_list_val);
-    xlabel('k'); ylabel('Average Posterior Mean');
+    xlabel('\it k', 'FontSize', fontsize); ylabel('Average Posterior Mean', 'FontSize', fontsize);
     title(['r=', int2str(r)]);
     saveas(fig, ['../result/r', int2str(r), 'mean.png']);
     hold off;

@@ -8,7 +8,7 @@ Although IBRKF achieves the robustness relative to its prior knowledge, it doesn
 
 where $\mathcal{Y}_k$ is $\mathcal{Y}_k=\{\bm{y}_0, \bm{y}_1, ..., \bm{y}_k\}$
 
-Same as the IBRKF, the algorithm providing the $\bm{\hat x}_k$ satisfying (\ref{eq:obkfcost}) is obtained just by replacing ${\bf Q}$ and ${\bf R}$ in classic KF with $\E_{\theta_1}[{\bf R}^{\theta_1}|\mathcal{Y}_k]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}|\mathcal{Y}_k]$ respectively, shown as Algorithm \ref{al:OBKF}.
+Same as the IBRKF, the algorithm satisfying (\ref{eq:obkfcost}) is obtained just by replacing ${\bf Q}$ and ${\bf R}$ in classic KF with $\E_{\theta_1}[{\bf R}^{\theta_1}|\mathcal{Y}_k]$ and $\E_{\theta_2}[{\bf Q}^{\theta_2}|\mathcal{Y}_k]$ respectively. The algorithm is shown as Algorithm \ref{al:OBKF}.
 
 \begin{algorithm}[]
 \caption{OBKF}
@@ -23,7 +23,7 @@ Same as the IBRKF, the algorithm providing the $\bm{\hat x}_k$ satisfying (\ref{
 \end{algorithmic}
 \end{algorithm}
 
-Now the only remaining problem is how to find the posterior expectations: $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$. To calculate them, the posterior distribution $\pi(\bm{\theta}|\mathcal{Y}_k)$ is necessary. Since there is no closed-form solution for $\pi(\bm{\theta}|\mathcal{Y}_k)$, the author of this paper employs MCMC to approximate $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$. The posterior distribution is proportinal to the product of its likelihood and prior distribution, i.e., $\pi (\bm{\theta}|\mathcal{Y}_k) \propto f(\mathcal{Y}_k|\bm{\theta})\pi(\bm{\theta})$. Then, once the likelihood function $f(\mathcal{Y}_k|\bm{\theta})$ is obtained, we can run the MCMC. From the Markov assumption of the system, it can be assumed that $\bm{y}_k$ depends only on $\bm{x}_k$ and $\bm{\theta}$. Then, the likelihood function is calculated as,
+Now the only remaining problem is, how to find the posterior expectations $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$. The posterior distribution $\pi(\bm{\theta}|\mathcal{Y}_k)$ is necessary to calculate them. Since there is no closed-form solution for $\pi(\bm{\theta}|\mathcal{Y}_k)$, the author of this paper employs MCMC to approximate $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$. From the Bayes theorem, the posterior distribution is proportional to the product of its likelihood and prior distribution, i.e., $\pi (\bm{\theta}|\mathcal{Y}_k) \propto f(\mathcal{Y}_k|\bm{\theta})\pi(\bm{\theta})$. Then, once the likelihood function $f(\mathcal{Y}_k|\bm{\theta})$ is obtained, we can run the MCMC. From the Markov assumption of the system, it can be assumed that $\bm{y}_k$ depends only on $\bm{x}_k$ and $\bm{\theta}$. Then, the likelihood function is factorized as,
 
 \begin{align} \label{eq:likelihood}
 &f(\mathcal{Y}_k|\bm{\theta}) \nonumber\\
@@ -32,7 +32,7 @@ Now the only remaining problem is how to find the posterior expectations: $\E_{\
 &\;\;\;\;\;\;\;\;\;\;\prod^{k}_{i=1}f(\bm{x}_i|\bm{x}_{i-1}, \bm{\theta})f(\bm{x}_0)dx_0...dx_k
 \end{align}
 
-Since this equation (\ref{eq:likelihood}) is a factorization of a grobal function, it can be expressed as a factor-graph, and we can use sum-product algorithm\cite{Kschischang2001} to compute $f(\mathcal{Y}_k|\bm{\theta})$. Finally, the likelihood function is obtained by the Algorithm \ref{al:likelihood}.
+Since this equation (\ref{eq:likelihood}) is a factorization of a global function, it can be expressed as a factor-graph, and we can use sum-product algorithm\cite{Kschischang2001} to compute $f(\mathcal{Y}_k|\bm{\theta})$. Finally, the likelihood function is obtained by the Algorithm \ref{al:likelihood}.
 
 \begin{algorithm}[H]
 \caption{Factor-Graph-Based Likelihood Function Calculation}
@@ -61,4 +61,4 @@ Since this equation (\ref{eq:likelihood}) is a factorization of a grobal functio
 Although the OBKF provides the best estimation relative to the posterior distribution, it has some drawbacks. Due to its MCMC and the factor-graph algorithm, the OBKF is computationally expensive. The computational cost of the factor-graph algorithm is proportional to $k$ due to its while loop, and the computational cost of MCMC is depends on its number of sampling. 
 
 However, in some situation, the algorithm \ref{al:likelihood} and the MCMC can be omitted. For example, if the environment is stationary, it's not necessary to run the MCMC once the $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$ are obtained. 
-Moreover, even if the covariance $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$ change, we can assume that the change of them are small between a short interval. In that case, it's not necessary to run the MCMC every measurement $k$, and the computational cost will become much small.
+Moreover, even if the covariance $\E_{\theta_1}[\bm {Q^{\theta_1}}|\mathcal{Y}_k]$ and $\E_{\theta_2}[\bm{R^{\theta_2}}|\mathcal{Y}_k]$ change, we can assume that the change of them are small between a short interval. In that case, it's not necessary to run the MCMC every measurement $k$, and the computational cost will be much smaller. Also, when implementing the OBKF, it is easy to accelerate the computation. The MCMC can be easily parallelized, and the speed of MCMC is proportional to the number of CPUs.
