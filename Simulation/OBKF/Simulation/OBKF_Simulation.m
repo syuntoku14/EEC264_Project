@@ -10,7 +10,7 @@ addpath('../model');
 clear all; close all;
 conf_interval = 0.95;
 
-num_epoch = 10;
+num_epoch = 200;
 
 %% true_model setup
 % Initial State

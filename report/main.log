@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.13)  17 MAR 2019 00:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.13)  17 MAR 2019 11:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -605,22 +605,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 56--57
 
 ) (./performance.tex [3]
 Package epstopdf Info: Source file: <img/r1_mse.eps>
-(epstopdf)                    date: 2019-03-16 02:05:17
-(epstopdf)                    size: 55558 bytes
+(epstopdf)                    date: 2019-03-17 10:58:13
+(epstopdf)                    size: 287585 bytes
 (epstopdf)             Output file: <img/r1_mse-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-03-16 02:05:23
-(epstopdf)                    size: 54196 bytes
+(epstopdf)                    date: 2019-03-17 10:58:44
+(epstopdf)                    size: 286220 bytes
 (epstopdf)             Command: <repstopdf --outfile=img/r1_mse-eps-converted-to.pdf img/r1_mse.eps>
 (epstopdf)             \includegraphics on input line 49.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex (file ./img/r1_mse-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<img/r1_mse-eps-converted-to.pdf, id=135, 1062.97125pt x 501.875pt>
+<img/r1_mse-eps-converted-to.pdf, id=135, 1027.84pt x 403.5075pt>
 File: img/r1_mse-eps-converted-to.pdf Graphic file (type pdf)
  <use img/r1_mse-eps-converted-to.pdf>
 Package pdftex.def Info: img/r1_mse-eps-converted-to.pdf used on input line 49.
-(pdftex.def)             Requested size: 275.99164pt x 130.30827pt.
+(pdftex.def)             Requested size: 275.99164pt x 108.3451pt.
 
 Overfull \hbox (21.52327pt too wide) in paragraph at lines 49--50
  [] 
@@ -629,24 +629,46 @@ Overfull \hbox (21.52327pt too wide) in paragraph at lines 49--50
 LaTeX Font Info:    Font shape `T1/pplx/bx/n' in size <9> not available
 (Font)              Font shape `T1/pplx/b/n' tried instead on input line 50.
 Package epstopdf Info: Source file: <img/r1_mean.eps>
-(epstopdf)                    date: 2019-03-16 02:05:16
-(epstopdf)                    size: 58803 bytes
+(epstopdf)                    date: 2019-03-17 10:58:13
+(epstopdf)                    size: 272019 bytes
 (epstopdf)             Output file: <img/r1_mean-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-03-16 02:05:23
-(epstopdf)                    size: 57442 bytes
+(epstopdf)                    date: 2019-03-17 10:58:44
+(epstopdf)                    size: 270660 bytes
 (epstopdf)             Command: <repstopdf --outfile=img/r1_mean-eps-converted-to.pdf img/r1_mean.eps>
 (epstopdf)             \includegraphics on input line 56.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex (file ./img/r1_mean-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<img/r1_mean-eps-converted-to.pdf, id=138, 1211.52625pt x 501.875pt>
+<img/r1_mean-eps-converted-to.pdf, id=138, 1027.84pt x 446.66875pt>
 File: img/r1_mean-eps-converted-to.pdf Graphic file (type pdf)
  <use img/r1_mean-eps-converted-to.pdf>
 Package pdftex.def Info: img/r1_mean-eps-converted-to.pdf used on input line 56.
-(pdftex.def)             Requested size: 275.99164pt x 114.32607pt.
+(pdftex.def)             Requested size: 256.0748pt x 111.27841pt.
 
-Overfull \hbox (21.52327pt too wide) in paragraph at lines 56--57
+Overfull \hbox (1.60643pt too wide) in paragraph at lines 56--57
+ [] 
+ []
+
+Package epstopdf Info: Source file: <img/wrong_prior.eps>
+(epstopdf)                    date: 2019-03-16 02:05:17
+(epstopdf)                    size: 67135 bytes
+(epstopdf)             Output file: <img/wrong_prior-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-03-16 02:05:22
+(epstopdf)                    size: 65782 bytes
+(epstopdf)             Command: <repstopdf --outfile=img/wrong_prior-eps-converted-to.pdf img/wrong_prior.eps>
+(epstopdf)             \includegraphics on input line 68.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: pdflatex (file ./img/wrong_prior-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<img/wrong_prior-eps-converted-to.pdf, id=150, 982.67125pt x 501.875pt>
+File: img/wrong_prior-eps-converted-to.pdf Graphic file (type pdf)
+ <use img/wrong_prior-eps-converted-to.pdf>
+Package pdftex.def Info: img/wrong_prior-eps-converted-to.pdf used on input line 68.
+(pdftex.def)             Requested size: 284.52756pt x 145.31027pt.
+
+Overfull \hbox (30.05919pt too wide) in paragraph at lines 68--69
  [] 
  []
 
@@ -657,41 +679,19 @@ Package epstopdf Info: Source file: <img/cmp_adaptive.eps>
 (epstopdf)                    date: 2019-03-16 02:05:23
 (epstopdf)                    size: 90904 bytes
 (epstopdf)             Command: <repstopdf --outfile=img/cmp_adaptive-eps-converted-to.pdf img/cmp_adaptive.eps>
-(epstopdf)             \includegraphics on input line 66.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: pdflatex (file ./img/cmp_adaptive-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<img/cmp_adaptive-eps-converted-to.pdf, id=145, 1434.35875pt x 501.875pt>
-File: img/cmp_adaptive-eps-converted-to.pdf Graphic file (type pdf)
- <use img/cmp_adaptive-eps-converted-to.pdf>
-Package pdftex.def Info: img/cmp_adaptive-eps-converted-to.pdf used on input line 66.
-(pdftex.def)             Requested size: 426.79134pt x 149.33072pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-Package epstopdf Info: Source file: <img/wrong_prior.eps>
-(epstopdf)                    date: 2019-03-16 02:05:17
-(epstopdf)                    size: 67135 bytes
-(epstopdf)             Output file: <img/wrong_prior-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-03-16 02:05:22
-(epstopdf)                    size: 65782 bytes
-(epstopdf)             Command: <repstopdf --outfile=img/wrong_prior-eps-converted-to.pdf img/wrong_prior.eps>
 (epstopdf)             \includegraphics on input line 76.
 Package epstopdf Info: Output file is already uptodate.
 
 
-pdfTeX warning: pdflatex (file ./img/wrong_prior-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<img/wrong_prior-eps-converted-to.pdf, id=154, 982.67125pt x 501.875pt>
-File: img/wrong_prior-eps-converted-to.pdf Graphic file (type pdf)
- <use img/wrong_prior-eps-converted-to.pdf>
-Package pdftex.def Info: img/wrong_prior-eps-converted-to.pdf used on input line 76.
-(pdftex.def)             Requested size: 284.52756pt x 145.31027pt.
+pdfTeX warning: pdflatex (file ./img/cmp_adaptive-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<img/cmp_adaptive-eps-converted-to.pdf, id=153, 1434.35875pt x 501.875pt>
+File: img/cmp_adaptive-eps-converted-to.pdf Graphic file (type pdf)
+ <use img/cmp_adaptive-eps-converted-to.pdf>
+Package pdftex.def Info: img/cmp_adaptive-eps-converted-to.pdf used on input line 76.
+(pdftex.def)             Requested size: 426.79134pt x 149.33072pt.
 
-Overfull \hbox (30.05919pt too wide) in paragraph at lines 76--77
- [] 
- []
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 ) (./conclusion.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -717,18 +717,18 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 84.
  ) 
 Here is how much of TeX's memory you used:
- 11271 strings out of 493029
- 169277 string characters out of 6136233
- 307174 words of memory out of 5000000
+ 11267 strings out of 493029
+ 169246 string characters out of 6136233
+ 307184 words of memory out of 5000000
  14220 multiletter control sequences out of 15000+600000
- 86806 words of font info for 336 fonts, out of 8000000 for 9000
+ 86583 words of font info for 333 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,14n,43p,1046b,638s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmb.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmbb.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmbi.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (5 pages, 417239 bytes).
+Output written on main.pdf (5 pages, 862963 bytes).
 PDF statistics:
- 243 PDF objects out of 1000 (max. 8388607)
- 205 compressed objects within 3 object streams
+ 246 PDF objects out of 1000 (max. 8388607)
+ 208 compressed objects within 3 object streams
  66 named destinations out of 1000 (max. 500000)
  64069 words of extra memory for PDF output out of 74296 (max. 10000000)
 
